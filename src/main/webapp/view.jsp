@@ -3,6 +3,9 @@
 <%@ page import = "java.io.PrintWriter" %>
 <%@ page import = "bbs.Bbs" %>
 <%@ page import = "bbs.BbsDAO" %>
+<%@ page import = "comment.Comment" %>
+<%@ page import = "comment.CommentDAO" %>
+<%@ page import = "java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +35,7 @@
 
     <jsp:include page="nav.jsp"/>
 
-    <!-- 게시판 글쓰기 화면 -->
+    <!-- 게시판 상세보기 화면 -->
     <div class="container">
         <div class="row">
     	   <table class="table table-striped  " style="text-align:center";>
@@ -85,6 +88,38 @@
 	   	</div>
     </div>
 
+
+    <!-- 댓글 리스트 -->
+    <div class="container">
+        <div class="row">
+           <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+               <thead>
+                   <tr>
+                        <th style="backgroud-color: #eeeeee; text-align:center;">작성자</th>
+                        <th style="backgroud-color: #eeeeee; text-align:center;">내용</th>
+                        <th style="backgroud-color: #eeeeee; text-align:center;">작성일</th>
+                   </tr>
+               </thead>
+               <tbody>
+               <!-- 글 리스트 동적 처리 -->
+<%
+   CommentDAO commentDAO = new CommentDAO();
+   ArrayList<Comment> list = commentDAO.getList(bbs.getBbsID(),10);
+   for(int i=0; i<list.size(); i++){
+%>
+                <!-- 작성자, 댓글내용, 댓글작성날짜, 수정,삭제버튼 -->
+                   <tr>
+                       <td><%= list.get(i).getUserID() %></td><!-- 작성자 -->
+                       <td><%= list.get(i).getCommentText() %></td><!-- 댓글내용 -->
+                       <td><%= list.get(i).getCommentDate() %></td><!-- 댓글작성날짜 -->
+                   </tr>  
+
+<%
+   }
+%>
+               </tbody>
+           </table>
+    
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.js"></script>

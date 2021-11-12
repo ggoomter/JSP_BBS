@@ -86,7 +86,8 @@ public class CommentDAO {
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             
-            pstmt.setInt(1, getNext() - (number-1)*10);
+            pstmt.setInt(1, bbsID);
+            pstmt.setInt(2, number);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 Comment comment = new Comment();
