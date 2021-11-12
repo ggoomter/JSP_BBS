@@ -17,7 +17,7 @@
         
         <!-- 네브바 본문 -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" id="naviCategory">
                 <li><a href="main.jsp">메인</a></li>  <!-- 현재 메인페이지이기때문에 메인을 엑티브로 -->
                 <li><a href="bbs.jsp">게시판</a></li>
             </ul>

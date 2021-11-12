@@ -10,3 +10,9 @@
 h1{
     font-family : 'Hanna';    
 }
+
+
+/* 네비게이션 마우스 올라가면 배경색 변경 */
+#naviCategory *:hover{
+    background-color: #99CC99;
+}
