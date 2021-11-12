@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <jsp:include page="nav.jsp"/>
+    <jsp:include page="nav.jsp"/><!-- 동적 -->
    
     <!-- 본문 -->
     <div class="container">

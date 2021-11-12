@@ -16,16 +16,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-<title>로그인처리</title>
+    <title>로그인처리</title>
 </head>
 <body>
-
+    <%@ include file="session.jsp" %><!-- 정적포함 -->
     <%
-    
-	    String userID = null;
-	    if (session.getAttribute("userID")!=null){  //세션의 userID속성이 null이 아니면
-	        userID = (String) session.getAttribute("userID");
-	    }
 	    if(userID !=null){  //이미 로그인된사람은 회원가입 할수없도록 하는 처리. 회원가입하려면 로그아웃하고        
 	        PrintWriter script = response.getWriter();
 	        script.println("<script>");

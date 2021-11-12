@@ -22,10 +22,6 @@
 </head>
 <body>
 <%
-	String userID = null;
-	if (session.getAttribute("userID")!=null){  //세션의 userID속성이 null이 아니면
-	    userID = (String) session.getAttribute("userID");
-	}
 	/* 페이지처리 */
 	int pageNumber = 1;    
 	if(request.getParameter("pageNumber")!=null){
