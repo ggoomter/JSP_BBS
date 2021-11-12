@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width", initial-scale="1" >
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/custom.css" />
-    <link rel="favicon"  type="image/x-icon" href="images/favicon.ico">
+    <link rel="shortcut icon"  href="images/favicon.ico">
     <title>메인</title>
 </head>
 <body>
