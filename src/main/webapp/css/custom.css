@@ -16,3 +16,8 @@ h1{
 #naviCategory *:hover{
     background-color: #99CC99;
 }
+
+/* 댓글 테이블의 + - 버튼 */
+#commentTable td img{
+    max-width: 15%;
+}

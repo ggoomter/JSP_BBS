@@ -6,6 +6,18 @@
 <%@ page import = "comment.Comment" %>
 <%@ page import = "comment.CommentDAO" %>
 <%@ page import = "java.util.ArrayList" %>
+
+
+<!-- 
+해야될 내용
+1. 댓글 오른쪽에 글쓰기, 글삭제 버튼 만들기
+2. 버튼 눌렀을때 기능 연결(새로고침없이 ajax로 구현)
+3. 이미지 추가, 삭제
+4. 추가된 이미지 미리보기
+5. 조회수
+-->
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,7 +104,7 @@
     <!-- 댓글 리스트 -->
     <div class="container">
         <div class="row">
-           <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+           <table id="commentTable" class="table table-striped" style="text-align:center; border:1px solid #dddddd">
                <thead>
                    <tr>
                         <th style="backgroud-color: #eeeeee; text-align:center;">작성자</th>
@@ -112,6 +124,8 @@
                        <td><%= list.get(i).getUserID() %></td><!-- 작성자 -->
                        <td><%= list.get(i).getCommentText() %></td><!-- 댓글내용 -->
                        <td><%= list.get(i).getCommentDate() %></td><!-- 댓글작성날짜 -->
+                       <td><img src="images/green_plus.png" alt="" /></td>
+                       <td><img src="images/red_minus.png" alt="" /></td>
                    </tr>  
 
 <%
