@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="session.jsp" %>   <!-- 세션 -->
-<link rel="favicon" href="./images/favicon.ico">
+
 
     <nav class="navbar navbar-default">
         <!-- 네브바 헤드 -->
