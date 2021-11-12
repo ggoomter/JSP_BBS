@@ -74,7 +74,6 @@
    	        <%
    	        }
    	        %>
-   	       <input type="submit" class="btn btn-primary pull-right" value="글쓰기">
 	   	</div>
     </div>
 
