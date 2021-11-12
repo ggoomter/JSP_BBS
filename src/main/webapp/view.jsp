@@ -63,14 +63,22 @@
 
     	       </tbody>
    	       </table>
-   	       
-   	       <a href="bbs.jsp" class="btn btn-primary">목록</a>
+   	       <div class="text-center">
+   	            <a href="bbs.jsp" class="btn btn-primary pull-width">목록</a>
+   	       </div>
    	       <!-- 작성자가 본인이라면 수정과 삭제가 가능하도록 -->
    	       <%
    	           if(userID != null && userID.equals(bbs.getUserID())){
    	        %>
-   	               <a href="update.jsp?bbsID=<%= bbsID %>" class="btn btn-primary">수정</a>
-   	               <a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-primary">삭제</a>
+
+                   <div class="row-fluid">
+                        <a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-danger pull-right">삭제</a>
+                   </div>
+   	               <div class="row-fluid">
+   	                    <a href="update.jsp?bbsID=<%= bbsID %>" class="btn btn-success pull-right">수정</a>
+   	               </div>
+
+
    	        <%
    	        }
    	        %>

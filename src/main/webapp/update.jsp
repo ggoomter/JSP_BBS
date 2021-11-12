@@ -65,7 +65,7 @@
 	    	           </tr>
 	    	       </tbody>
 	   	       </table>
-	   	       <input type="submit" class="btn btn-primary pull-right" value="글수정">
+	   	       <input type="submit" class="btn btn-success pull-right" value="글수정">
 		   	</form>
 	   	</div>
     </div>
