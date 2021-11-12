@@ -6,9 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1" >
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/custom.css" />
-    <link rel="shortcut icon"  href="images/favicon.ico">
+    <%@ include file="/commonInclude.jsp" %>
     <title>메인</title>
 </head>
 <body>
