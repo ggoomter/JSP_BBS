@@ -35,7 +35,7 @@
     <!-- 게시판 글쓰기 화면 -->
     <div class="container">
         <div class="row">
-    	   <table class="table table-striped" style="text-align:center; border:1px solid #dddddd">
+    	   <table class="table table-striped  " style="text-align:center";>
     	       <thead>
 	    	       <tr>
 	    	       		<th colspan="3" style="backgroud-color: #eeeeee; text-align:center;">글 자세히보기</th>
