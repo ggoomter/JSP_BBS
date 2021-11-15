@@ -15,8 +15,8 @@ public class UserDAO {
         try {
             //mysql 접속 정보
             String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
-            String dbID = "root";                       //mysql 접속 id
-            String dbPassword = "system123";            //mysql 접속 비밀번호
+            String dbID = "ggoomter";                       //mysql 접속 id
+            String dbPassword = "0070";            //mysql 접속 비밀번호
             Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
         } catch (Exception e) {
