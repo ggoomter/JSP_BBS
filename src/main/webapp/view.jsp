@@ -10,11 +10,12 @@
 
 <!-- 
 해야될 내용
-1. 댓글 오른쪽에 글쓰기, 글삭제 버튼 만들기
+1. 댓글 오른쪽에 글쓰기, 글삭제 버튼 만들기 : 11/15
 2. 버튼 눌렀을때 기능 연결(새로고침없이 ajax로 구현)
 3. 이미지 추가, 삭제
 4. 추가된 이미지 미리보기
 5. 조회수
+6. 댓글을 처음부터 지정된 갯수만 가져오는것이 아니라 더보기 누르면 ajax로 조금씩 더가져오기
 -->
 
 
@@ -40,7 +41,7 @@
         script.println("location.href = 'bbs.jsp'");  
         script.println("</script>");
 	}
-	Bbs bbs = new BbsDAO().getBbs(bbsID);
+	Bbs bbs = new BbsDAO().getBbs(bbsID);  //해당 글데이터 받아오기
 
 %>
 
@@ -103,12 +104,14 @@
     <!-- 댓글 작성 -->
 	<div class="container">
 	    <div class="row">
-	        <form method="post" encType = "text/plain" action="commentAction.jsp?bbsID=<%= bbsID %>&userID=<%=userID%>">
+	        <form method="post" action="commentAction.jsp">
+	            <!-- 댓글번호commentID는 dao에서 증가시킬거고, 글내용은 아래, 글작성자는 세션에서 -->
+	            <input type="hidden" name = "bbsID" value="<%=bbs.getBbsID() %>">
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
 	                    <td class="col-md-1 align-middle"><%= userID %></td>
-	                    <td class="col-md-9"><input type="text" style="height:50px;" class="form-control" placeholder="댓글을 입력해주세요." name = "commentText"></td>
-	                    <td class="col-md-2 align-middle"><button type="submit" class="btn btn-info">댓글 작성</button></td>
+	                    <td class="col-md-9"><input type="text" style="height:50px;" class="form-control" placeholder="댓글을 입력해주세요." name="commentText"></td>
+	                    <td class="col-md-2 align-middle"><input type="submit" class="btn btn-info"></input></td>
 	                </tr>
 	            </table>
 	        </form>
@@ -142,6 +145,7 @@
                        <td class="col-md-2"><%= list.get(i).getCommentDate() %></td><!-- 댓글작성날짜 -->
                        
                        <%
+                       //세션이 종료되었을때 화면이 터짐
                        if(userID.equals(list.get(i).getUserID())) { //댓글 작성자와 로그인유저가 같으면 수정,삭제 버튼 표시
                        %>
                        <td class="col-md-1 ">
