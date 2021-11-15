@@ -125,7 +125,7 @@
                        <td class="col-md-7"><%= list.get(i).getCommentText() %></td><!-- 댓글내용 -->
                        <td class="col-md-2"><%= list.get(i).getCommentDate() %></td><!-- 댓글작성날짜 -->
                        <td class="col-md-1 ">
-                            <img class="plusBtn" src="images/green_plus.png" alt="" />
+                            <img class="modifyBtn" src="images/yellow_modify.png" alt="" />
                             <img class="minusBtn" src="images/red_minus.png" alt="" />
                        </td>
                    </tr>  
