@@ -26,6 +26,7 @@
         int bbsID = 0;
         int commentID = 0;
         String commentText = null;
+        String type = request.getParameter("type");
         
         /* 빈이 널이 아니면 값 대입 */
         if(comment !=null){
@@ -50,7 +51,18 @@
             }else{  //제목과 내용이 정상 입력되었다면
                  CommentDAO commentDAO = new CommentDAO();
 
-               //댓글쓰기 로직 실행
+                 switch(type){
+                 case "create":
+                 case "update":
+                 case "delete":
+                     PrintWriter script = response.getWriter();
+                     script.println("<script>");
+                     script.println("alert(bbsID+'댓글을 삭제하겠습니다.')");
+                     script.println("</script>");
+                 default:
+                 }
+                
+                 //댓글쓰기 로직 실행
                  int result = commentDAO.write(String.valueOf(comment.getBbsID()), userID, comment.getCommentText());   
                  
                  if(result == -1){      //데이터베이스 오류

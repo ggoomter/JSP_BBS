@@ -109,13 +109,15 @@ public class CommentDAO {
     
     
     //댓글 수정
-    public int update(int commentID, String commentText) {
-        String SQL = "UPDATE COMMENT SET commentID=?, commentText = ? WHERE commentID = ?";
+    public int update(int bbsID, int commentID, String commentText) {
+        String SQL = "UPDATE COMMENT SET commentID=?, commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, commentID);
             pstmt.setString(2, commentText);
-            pstmt.setInt(3, commentID);
+            pstmt.setString(3, getDate());
+            pstmt.setInt(4, commentID);
+            pstmt.setInt(5, bbsID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

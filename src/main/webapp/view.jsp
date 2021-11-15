@@ -106,12 +106,17 @@
 	    <div class="row">
 	        <form method="post" action="commentAction.jsp">
 	            <!-- 댓글번호commentID는 dao에서 증가시킬거고, 글내용은 아래, 글작성자는 세션에서 -->
+	            <input type="hidden" name = "actionType" value="insert">
 	            <input type="hidden" name = "bbsID" value="<%=bbs.getBbsID() %>">
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
 	                    <td class="col-md-1 align-middle"><%= userID %></td>
-	                    <td class="col-md-9"><input type="text" style="height:50px;" class="form-control" placeholder="댓글을 입력해주세요." name="commentText"></td>
-	                    <td class="col-md-2 align-middle"><input type="submit" class="btn btn-info"></input></td>
+	                    <td class="col-md-8"><textarea id = "commentText" style="height:50px;" class="form-control" placeholder="댓글을 입력해주세요." name="commentText"></textarea></td>
+	                    <!-- 제출버튼 -->
+	                    <td class="col-md-3 align-middle">
+	                       <input type="button" id="commentTextResetButton" class="btn btn-dark" value="초기화" onclick = "resetCommentText();"/></input>
+	                       <input type="submit" id="commentTextActionButton" class="btn btn-info"></input>
+	                    </td>
 	                </tr>
 	            </table>
 	        </form>
@@ -138,7 +143,7 @@
 				   ArrayList<Comment> list = commentDAO.getList(bbs.getBbsID(),10);
 				   for(int i=0; i<list.size(); i++){
 				%>
-                <!-- 작성자, 댓글내용, 댓글작성날짜, 수정,삭제버튼 -->
+                <!-- 작성자, 댓글내용, 댓글작성날짜, 수정버튼 ,삭제버튼 -->
                    <tr>
                        <td class="col-md-2"><%= list.get(i).getUserID() %></td><!-- 작성자 -->
                        <td class="col-md-7"><%= list.get(i).getCommentText() %></td><!-- 댓글내용 -->
@@ -149,8 +154,8 @@
                        if(userID.equals(list.get(i).getUserID())) { //댓글 작성자와 로그인유저가 같으면 수정,삭제 버튼 표시
                        %>
                        <td class="col-md-1 ">
-                            <img class="modifyBtn" src="images/yellow_modify.png" alt="" />
-                            <img class="minusBtn" src="images/red_minus.png" alt="" />
+                            <img class="modifyBtn" src="images/yellow_modify.png" alt="" onclick="updateComment(<%= list.get(i).getBbsID()%>, <%= list.get(i).getCommentID()%>);"/>
+                            <img class="minusBtn" src="images/red_minus.png" alt="" onclick="deleteComment(<%= list.get(i).getBbsID()%>, <%= list.get(i).getCommentID()%>);"/>
                        </td>
                        
                        <%
@@ -173,6 +178,77 @@
        </div>
    </div>
     
+    
+    <script>
+    let writer = null;
+    let contentText = null;
+    let writedDate = null;
+    let boardID = null;
+    let commentID = null;
+    
+    function updateComment(boardID, commentID){
+    	//이건 댓글 입력칸의 내용 가져온것
+    	//let commentText = document.getElementById("commentText").value;
+    	
+    	//기능구현 순서 
+    	//1. 수정버튼을 누르기전에는 기존댓글 수정불가상태 (고칠필요없음 현상태 그대로)
+    	//2. 수정버튼을 클릭하면 색깔변경, 포커스 이동
+    	   // 바꿀수있는건 댓글 내용뿐이기 때문에 댓글추가창에 박아주자. 제출 내용을 노란색으로 수정으로 바꾸고.
+    	//3. 화면변경없이 유저의 입력값 서버로 넘기기
+    	   // 
+    	//4. 변경된 댓글내용으로 다시 화면 조회
+    	//자바스크립트단의 변수를 jsp(백단)으로 넘기는 가장 쉬운 방법은 input hidden
+    	
+    	//클릭한 행의 3개 컬럼 정보 변수에 저장
+        $("#commentTable tbody").on("click", "tr", function(){
+
+            writer = $(this).find("td:eq(0)").text();
+            contentText = $(this).find("td:eq(1)").text();
+            writedDate = $(this).find("td:eq(2)").text();
+            
+            console.log(contentText);
+            $("#commentText").val(contentText);
+            $("#commentTextActionButton").attr('class','btn btn-warning');
+        });
+
+
+        
+    	<%-- db로 변경사항 적용시키는 작업해야함. Action으로 역할을 미루자.  	--%>
+    }
+    
+    function deleteComment(boardID, commentID){
+    	console.log("삭제. boardID : "+boardID);
+    	console.log("삭제. commentID : "+commentID);
+    	$.ajax(
+	    	{ type: "GET",
+	    	  url: "commentAction.jsp",
+	    	  data: {
+	    		  type : "delete",
+	    		  boardID : boardID,
+	    		  commentID : commentID
+	    	  },
+	    	  success: function(data) {
+	    	        alert("success!");
+	    	  },
+	    	  error: function(error) {
+	    	        alert("Error!");
+	    	  },
+
+	    	  dataType: 'json'
+	    	}
+    	);
+    }
+    
+    
+    function resetCommentText(){
+    	$("#commentText").val("");//reset은 왜안되나 모르겠고 이걸로 해결
+    	
+    }
+    	
+
+
+    
+    </script>    
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
