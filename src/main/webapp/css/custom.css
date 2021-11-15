@@ -20,6 +20,7 @@ h1{
 /* 댓글 테이블의 + - 버튼 */
 #commentTable td img{
     max-width: 30%;
+    width : 3em;
     margin-left :5px;
     margin-right : 5px;
     cursor:pointer;

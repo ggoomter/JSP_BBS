@@ -99,6 +99,21 @@
    	        %>
 	   	</div>
     </div>
+    <br><br>
+    <!-- 댓글 작성 -->
+	<div class="container">
+	    <div class="row">
+	        <form method="post" encType = "text/plain" action="commentAction.jsp?bbsID=<%= bbsID %>&userID=<%=userID%>">
+	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
+	                <tr>
+	                    <td class="col-md-1 align-middle"><%= userID %></td>
+	                    <td class="col-md-9"><input type="text" style="height:50px;" class="form-control" placeholder="댓글을 입력해주세요." name = "commentText"></td>
+	                    <td class="col-md-2 align-middle"><button type="submit" class="btn btn-info">댓글 작성</button></td>
+	                </tr>
+	            </table>
+	        </form>
+	    </div>
+	</div>
 
 
     <!-- 댓글 리스트 -->
@@ -113,12 +128,13 @@
                    </tr>
                </thead>
                <tbody>
-               <!-- 글 리스트 동적 처리 -->
-<%
-   CommentDAO commentDAO = new CommentDAO();
-   ArrayList<Comment> list = commentDAO.getList(bbs.getBbsID(),10);
-   for(int i=0; i<list.size(); i++){
-%>
+           
+               <!-- 댓글 리스트 데이터 -->
+				<%
+				   CommentDAO commentDAO = new CommentDAO();
+				   ArrayList<Comment> list = commentDAO.getList(bbs.getBbsID(),10);
+				   for(int i=0; i<list.size(); i++){
+				%>
                 <!-- 작성자, 댓글내용, 댓글작성날짜, 수정,삭제버튼 -->
                    <tr>
                        <td class="col-md-2"><%= list.get(i).getUserID() %></td><!-- 작성자 -->
@@ -145,9 +161,9 @@
 
                    </tr>  
 
-<%
-   }
-%>
+				<%
+				   }   //end of for list
+				%>
                </tbody>
            </table>
        </div>
