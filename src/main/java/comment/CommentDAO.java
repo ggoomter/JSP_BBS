@@ -126,11 +126,12 @@ public class CommentDAO {
     }
     
     //댓글 삭제
-    public int delete(int commentID) {
-        String SQL = "DELETE FROM COMMENT WHERE commentID = ?";
+    public int delete(int bbsID, int commentID) {
+        String SQL = "DELETE FROM COMMENT WHERE bbsID=? and commentID = ?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, commentID);
+            pstmt.setInt(1, bbsID);
+            pstmt.setInt(2, commentID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
