@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-<title>글쓰기 처리</title>
+    <title>글쓰기 처리</title>
 </head>
 <body>
     <%@ include file="session.jsp" %><!-- 정적포함 -->

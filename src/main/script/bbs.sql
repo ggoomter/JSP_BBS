@@ -26,4 +26,7 @@ insert into BBS values (10, '10번글', 'ggoomter', now(), '아무내용', 1);
 insert into BBS values (11, '11번글', 'ggoomter', now(), '아무내용', 1);
 insert into BBS values (12, '12번글', 'ggoomter', now(), '아무내용', 1);
 
+
+alter table BBS add VIEWCOUNT INT default 0; 
+
 commit;

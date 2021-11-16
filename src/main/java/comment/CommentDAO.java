@@ -61,6 +61,7 @@ public class CommentDAO {
     public int write(String bbsID, String userID, String commentText) {
         String SQL = "INSERT INTO COMMENT VALUES (?,?,?,?,?)";
         try {
+            System.out.println("댓글 쓰기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, getNext());
             pstmt.setString(2, bbsID);
@@ -84,8 +85,8 @@ public class CommentDAO {
         String SQL = "SELECT * FROM COMMENT WHERE bbsID = ? ORDER BY commentID DESC LIMIT ?";
         ArrayList<Comment> list = new ArrayList<Comment>();        
         try {
+            System.out.println("댓글 목록");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            
             pstmt.setInt(1, bbsID);
             pstmt.setInt(2, number);
             rs = pstmt.executeQuery();
@@ -109,13 +110,16 @@ public class CommentDAO {
     
     
     //댓글 수정
-    public int update(int commentID, String commentText) {
-        String SQL = "UPDATE COMMENT SET commentID=?, commentText = ? WHERE commentID = ?";
+    public int update(int bbsID, int commentID, String commentText) {
+        String SQL = "UPDATE COMMENT SET commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
         try {
+            System.out.println("댓글 수정");
+            System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s\n", bbsID, commentID, commentText);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, commentID);
-            pstmt.setString(2, commentText);
+            pstmt.setString(1, commentText);
+            pstmt.setString(2, getDate());
             pstmt.setInt(3, commentID);
+            pstmt.setInt(4, bbsID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,11 +128,13 @@ public class CommentDAO {
     }
     
     //댓글 삭제
-    public int delete(int commentID) {
-        String SQL = "DELETE FROM COMMENT WHERE commentID = ?";
+    public int delete(int bbsID, int commentID) {
+        String SQL = "DELETE FROM COMMENT WHERE bbsID=? and commentID = ?";
         try {
+            System.out.println("댓글 삭제");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, commentID);
+            pstmt.setInt(1, bbsID);
+            pstmt.setInt(2, commentID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

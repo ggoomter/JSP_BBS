@@ -7,7 +7,16 @@ public class Bbs {
     private String bbsDate;
     private String bbsContent;
     private int bbsAvailable;
+    private int viewCount;
    
+    
+    public int getViewCount() {
+        return viewCount;
+    }
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+    
     public int getBbsID() {
         return bbsID;
     }
