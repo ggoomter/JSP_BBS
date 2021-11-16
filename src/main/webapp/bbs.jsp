@@ -5,6 +5,7 @@
 <%@ page import = "bbs.Bbs" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <!DOCTYPE html>
@@ -28,6 +29,11 @@
 	if(request.getParameter("pageNumber")!=null){
 	    pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 	}
+	
+	/* 글 목록 */
+	BbsDAO bbsDAO = new BbsDAO();
+	ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
+	pageContext.setAttribute("list", list);
 %>
 
     <jsp:include page="nav.jsp"/>
@@ -47,23 +53,18 @@
     	       </thead>
     	       <tbody>
     	       <!-- 글 리스트 동적 처리 -->
-<%
-   BbsDAO bbsDAO = new BbsDAO();
-   ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
-   for(int i=0; i<list.size(); i++){
-%>
-                   <tr>
-                       <td class="col-md-1"><%= list.get(i).getBbsID() %></td>
-                       <td class="col-md-5"><a href="view.jsp?bbsID=<%=list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td><!-- 특수문자나 공백, 줄띄움 처리 --> 
-                       <td class="col-md-2"><%= list.get(i).getUserID() %></td>
-                       <td class="col-md-2"><%= list.get(i).getBbsDate().substring(0,11) + " " + list.get(i).getBbsDate().substring(11,13)+"시 " + list.get(i).getBbsDate().substring(14,16) + "분"%></td>
-                       <td class="col-md-1"><%= list.get(i).getViewCount() %></td>
+               <c:forEach var="board" items="${list}" varStatus="status">
+					<tr>
+                       <td class="col-md-1">${board.bbsID}</td>
+                       <td class="col-md-5"><a href="view.jsp?bbsID=${board.bbsID}"> <c:out value ="${board.bbsTitle}" escapeXml="false"></c:out></a></td><!-- 특수문자나 공백, 줄띄움 처리 --> 
+                       <td class="col-md-2">${board.userID}</td>
                        
+                       <!-- db에는 datetime이지만 자바객체에선 String 이기때문에 먼저 parseDate를 통해 date형태로 값을 파싱후에 formatDate사용 -->
+                       <fmt:parseDate value="${board.bbsDate}" var="parseDateValue" pattern ="yyyy-MM-dd HH:ss"></fmt:parseDate>
+                       <td class="col-md-2"><fmt:formatDate value="${parseDateValue}" pattern="yyyy.MM.dd  HH:ss"/></td>
+                       <td class="col-md-1">${board.viewCount}</td>
                    </tr>  
-
-<%
-   }
-%>
+               </c:forEach>
     	       </tbody>
    	       </table>
    	       
