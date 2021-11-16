@@ -67,6 +67,7 @@ public class BbsDAO {
     public int write(String bbsTitle, String userID, String bbsContent) {
         String SQL = "INSERT INTO BBS VALUES (?,?,?,?,?,?)";
         try {
+        	System.out.println("글쓰기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, getNext());
             pstmt.setString(2, bbsTitle);
@@ -106,6 +107,7 @@ public class BbsDAO {
                 bbs.setBbsDate(rs.getString(4));
                 bbs.setBbsContent(rs.getString(5));
                 bbs.setBbsAvailable(rs.getInt(6));
+                bbs.setViewCount(rs.getInt(7));
                 list.add(bbs);
             }
         } catch (Exception e) {
@@ -147,6 +149,7 @@ public class BbsDAO {
         String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
+        	System.out.println("글 자세히 보기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1,  bbsID);
             rs = pstmt.executeQuery();

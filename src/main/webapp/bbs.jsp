@@ -52,12 +52,11 @@
    for(int i=0; i<list.size(); i++){
 %>
                    <tr>
-                       <td><%= list.get(i).getBbsID() %></td>
-                       <td><a href="view.jsp?bbsID=<%=list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td><!-- 특수문자나 공백, 줄띄움 처리 --> 
-                       
-                       <td><%= list.get(i).getUserID() %></td>
-                       <td><%= list.get(i).getBbsDate().substring(0,11) + " " + list.get(i).getBbsDate().substring(11,13)+"시 " + list.get(i).getBbsDate().substring(14,16) + "분"%></td>
-                       <td><%= list.get(i).getViewCount() %></td>
+                       <td class="col-md-1"><%= list.get(i).getBbsID() %></td>
+                       <td class="col-md-5"><a href="view.jsp?bbsID=<%=list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></a></td><!-- 특수문자나 공백, 줄띄움 처리 --> 
+                       <td class="col-md-2"><%= list.get(i).getUserID() %></td>
+                       <td class="col-md-2"><%= list.get(i).getBbsDate().substring(0,11) + " " + list.get(i).getBbsDate().substring(11,13)+"시 " + list.get(i).getBbsDate().substring(14,16) + "분"%></td>
+                       <td class="col-md-1"><%= list.get(i).getViewCount() %></td>
                        
                    </tr>  
 
