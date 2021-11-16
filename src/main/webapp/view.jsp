@@ -16,6 +16,7 @@
 4. 이미지 추가, 삭제
 5. 추가된 이미지 미리보기
 6. 조회수
+7. 글 자세히 보기 너무 못생김. 가로로 레이아웃 정렬
 
 -->
 
@@ -60,6 +61,7 @@
 	    	       </tr>
     	       </thead>
     	       <tbody>
+    	       
     	           <tr>
     	               <td style="width:20%">글 제목</td>
     	               <td colspan="2"><%=bbs.getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></td>
@@ -77,6 +79,10 @@
                        <td>내용</td>
                        <td colspan="2" style="min-height:200px; text-align:left;"><%=bbs.getBbsContent().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></td>
                        <!-- 특수문자나 공백, 줄띄움 처리 --> 
+                   </tr>
+                   <tr>
+                       <td>조회수</td>
+                       <td colspan="2"><%= bbs.getViewCount()%></td>
                    </tr>
 
     	       </tbody>

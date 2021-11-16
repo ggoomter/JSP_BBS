@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author ggoomter
+ * 2021.11.16 조회수 추가
+ */
+
 public class BbsDAO {
     private Connection conn;
     private ResultSet rs;
@@ -153,6 +159,8 @@ public class BbsDAO {
                 bbs.setBbsDate(rs.getString(4));
                 bbs.setBbsContent(rs.getString(5));
                 bbs.setBbsAvailable(rs.getInt(6));
+                bbs.setViewCount(rs.getInt(7));
+                increaseViewCount(bbsID);
                 return bbs;
             }
         } catch (Exception e) {
@@ -188,5 +196,21 @@ public class BbsDAO {
         }
         return -1;  //데이터베이스 오류        
     }
+    
+    
+    //게시글 보면 조회수 1 증가
+    public int increaseViewCount(int bbsID) {
+        String SQL = "UPDATE BBS SET VIEWCOUNT=VIEWCOUNT+1 WHERE bbsID = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bbsID);
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;  //데이터베이스 오류    
+    }
+    
+
     
 }
