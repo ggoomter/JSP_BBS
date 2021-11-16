@@ -107,7 +107,7 @@
 	    <div class="row">
 	        <form method="post" action="commentAction.jsp">
 	            <!-- 댓글번호commentID는 dao에서 증가시킬거고, 글내용은 아래, 글작성자는 세션에서 -->
-	            <input type="hidden" name = "type" value="create">
+	            <input id="actionTypeInput" type="hidden" name = "type" value="create">
 	            <input type="hidden" name = "bbsID" value="<%=bbs.getBbsID() %>">
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
@@ -116,7 +116,7 @@
 	                    <!-- 제출버튼 -->
 	                    <td class="col-md-3 align-middle">
 	                       <input type="button" id="commentTextResetButton" class="btn btn-dark" value="초기화" onclick = "resetCommentText();"/></input>
-	                       <input type="submit" id="commentTextActionButton" class="btn btn-info"></input>
+	                       <input type="submit" id="commentTextUpdateButton" class="btn btn-info"></input>
 	                    </td>
 	                </tr>
 	            </table>
@@ -196,16 +196,7 @@
     function updateComment(bbsID, commentID){
     	//이건 댓글 입력칸의 내용 가져온것
     	//let commentText = document.getElementById("commentText").value;
-    	
-    	//기능구현 순서 
-    	//1. 수정버튼을 누르기전에는 기존댓글 수정불가상태 (고칠필요없음 현상태 그대로)
-    	//2. 수정버튼을 클릭하면 색깔변경, 포커스 이동
-    	   // 바꿀수있는건 댓글 내용뿐이기 때문에 댓글추가창에 박아주자. 제출 내용을 노란색으로 수정으로 바꾸고.
-    	//3. 화면변경없이 유저의 입력값 서버로 넘기기
-    	   // 
-    	//4. 변경된 댓글내용으로 다시 화면 조회
-    	//자바스크립트단의 변수를 jsp(백단)으로 넘기는 가장 쉬운 방법은 input hidden
-    	
+
     	//클릭한 행의 3개 컬럼 정보 변수에 저장
         $("#commentTable tbody").on("click", "tr", function(){
 
@@ -215,13 +206,10 @@
             
             console.log(contentText);
             $("#commentText").val(contentText);
-            $("#commentTextActionButton").attr('class','btn btn-warning');
+            $("#commentTextUpdateButton").attr('class','btn btn-warning');
+            $("#actionTypeInput").val("update");
             $("#commentText").focus();
         });
-
-
-        
-    	<%-- db로 변경사항 적용시키는 작업해야함. Action으로 역할을 미루자.  	--%>
     }
     
     

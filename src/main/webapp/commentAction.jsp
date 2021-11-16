@@ -20,9 +20,11 @@
 </head>
 <body>
 
-  <%--   테스트 출력333
+    테스트 출력333
     글번호 ${param.bbsID}<br>
-    댓글번호 ${param.commentID} --%>
+    댓글번호 ${param.commentID} 
+    글내용 ${param.commentText}
+    
     
     <%@ include file="session.jsp" %><!-- 정적포함 -->
     
@@ -85,8 +87,11 @@
             }
             case "update":{
                 PrintWriter script = response.getWriter();
+                int result = commentDAO.update(bbsID, commentID, commentText);
+                String url = "view.jsp?bbsID="+bbsID;
                 script.println("<script>");
-                script.println("alert(bbsID+'댓글을 수정하겠습니다.')");
+                script.println("alert('댓글수정성공')");
+                script.println("location.href = "+"'"+url+"'");
                 script.println("</script>");
                 break;
             }
@@ -102,15 +107,8 @@
             }
             default:
             }
-           
-	        
-	        
-	        
-	        
-	        
 
 	    }
-    
 
     %>
 </body>
