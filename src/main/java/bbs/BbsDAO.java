@@ -65,7 +65,7 @@ public class BbsDAO {
     
     //글쓰기
     public int write(String bbsTitle, String userID, String bbsContent) {
-        String SQL = "INSERT INTO BBS VALUES (?,?,?,?,?,?)";
+        String SQL = "INSERT INTO BBS (bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable) VALUES (?,?,?,?,?,?)";
         try {
         	System.out.println("글쓰기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
