@@ -19,12 +19,12 @@
     <title>댓글쓰기 처리</title>
 </head>
 <body>
-
-    테스트 출력333
-    글번호 ${param.bbsID}<br>
-    댓글번호 ${param.commentID} 
-    글내용 ${param.commentText}
     
+<%--     테스트 출력444
+    글번호 ${comment.bbsID}<br>
+    댓글번호 ${comment.commentID}<br> 
+    글내용 ${comment.commentText}
+ --%>
     
     <%@ include file="session.jsp" %><!-- 정적포함 -->
     
@@ -62,7 +62,7 @@
                     PrintWriter script = response.getWriter();
                     script.println("<script>");
                     script.println("alert('댓글내용을 입력해주세요.')");
-                    //script.println("history.back()");
+                    script.println("history.back()");
                     script.println("</script>"); 
                 }else{  //제목과 내용이 정상 입력되었다면
                     int result = commentDAO.write(String.valueOf(comment.getBbsID()), userID, comment.getCommentText());
@@ -70,13 +70,13 @@
                         PrintWriter script = response.getWriter();
                         script.println("<script>");
                         script.println("alert('댓글작성을 실패했습니다.')");
-                        //script.println("history.back()");
+                        script.println("history.back()");
                         script.println("</script>");
                     }
                     else {             //댓글쓰기 정상 실행후 메세지   
                         PrintWriter script = response.getWriter();
                         script.println("<script>");
-                        script.println("alert('댓글이 정상적으로 등록되었습니다.')");
+                        script.println("alert('댓글이 정상적으로 등록(수정)되었습니다.')");
                         String url = "view.jsp?bbsID="+comment.getBbsID();
                         script.println("location.href = "+"'"+url+"'");
                         script.println("</script>");
@@ -89,7 +89,7 @@
                 PrintWriter script = response.getWriter();
                 int result = commentDAO.update(bbsID, commentID, commentText);
                 String url = "view.jsp?bbsID="+bbsID;
-                script.println("<script>");
+                 script.println("<script>");
                 script.println("alert('댓글수정성공')");
                 script.println("location.href = "+"'"+url+"'");
                 script.println("</script>");

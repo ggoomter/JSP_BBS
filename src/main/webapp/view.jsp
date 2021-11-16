@@ -32,6 +32,7 @@
 <%@ include file="session.jsp" %><!-- 정적포함 -->
 <%
 	int bbsID = 0;
+    int commentID = 0;
 	if(request.getParameter("bbsID")!=null){   //request에 bbsID가 없다면
 	    bbsID = Integer.parseInt(request.getParameter("bbsID"));   //다시 받아오도록
 	}
@@ -105,10 +106,11 @@
     <!-- 댓글 작성 -->
 	<div class="container">
 	    <div class="row">
-	        <form method="post" action="commentAction.jsp">
+	        <form method="post" action="commentAction.jsp" id="commentForm">
 	            <!-- 댓글번호commentID는 dao에서 증가시킬거고, 글내용은 아래, 글작성자는 세션에서 -->
 	            <input id="actionTypeInput" type="hidden" name = "type" value="create">
-	            <input type="hidden" name = "bbsID" value="<%=bbs.getBbsID() %>">
+	            <input type="hidden" id="bbsID" name = "bbsID" value="<%=bbs.getBbsID() %>">
+	            <input type="hidden" id="commentID" name = "commentID" value=0>
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
 	                    <td class="col-md-1 align-middle"><%= userID %></td>
@@ -151,7 +153,6 @@
                        <td class="col-md-2"><%= list.get(i).getCommentDate() %></td><!-- 댓글작성날짜 -->
                        
                        <%
-                       //세션이 종료되었을때 화면이 터짐
                        if(userID.equals(list.get(i).getUserID())) { //댓글 작성자와 로그인유저가 같으면 수정,삭제 버튼 표시
                        %>
                        <td class="col-md-1 ">
@@ -192,11 +193,8 @@
     
 
     
-    //댓글수정 버튼 눌렀을때 호출
+    //댓글수정 버튼 눌렀을때 호출. 해당댓글의 정보 가져옴
     function updateComment(bbsID, commentID){
-    	//이건 댓글 입력칸의 내용 가져온것
-    	//let commentText = document.getElementById("commentText").value;
-
     	//클릭한 행의 3개 컬럼 정보 변수에 저장
         $("#commentTable tbody").on("click", "tr", function(){
 
@@ -204,6 +202,10 @@
             contentText = $(this).find("td:eq(1)").text();
             writedDate = $(this).find("td:eq(2)").text();
             
+
+            commentID = $("#commentID").val(commentID);
+            
+            console.log(commentID);
             console.log(contentText);
             $("#commentText").val(contentText);
             $("#commentTextUpdateButton").attr('class','btn btn-warning');

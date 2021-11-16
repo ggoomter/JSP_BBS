@@ -114,7 +114,7 @@ public class CommentDAO {
         String SQL = "UPDATE COMMENT SET commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
         try {
             System.out.println("댓글 수정");
-            System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s", bbsID, commentID, commentText);
+            System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s\n", bbsID, commentID, commentText);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, commentText);
             pstmt.setString(2, getDate());
