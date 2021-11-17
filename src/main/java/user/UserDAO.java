@@ -5,10 +5,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+
 public class UserDAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     
     public UserDAO() {
@@ -33,6 +39,7 @@ public class UserDAO {
     public int login(String userID, String userPassword) {
         String SQL = "SELECT userPassword FROM USER WHERE userID = ?";
         try {
+            logger.debug("<접속시도> 아이디 : "+userID +"  비밀번호 : "+ userPassword);
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, userID); // 첫번째 ?에 userID의 값 대입
             rs = pstmt.executeQuery();  // 준비된 쿼리를 실행시키고 결과값을 rs에 대입
@@ -46,6 +53,7 @@ public class UserDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("db접속 에러 발생");
         }
         return -2;  //데이터베이스 오류
     }
