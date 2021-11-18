@@ -20,7 +20,7 @@ public class UserDAO {
     public UserDAO() {
         try {
             //mysql 접속 정보
-            String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
+            String dbURL = "jdbc:mysql://database-bbs.cx5qsmc1gsai.ap-northeast-2.rds.amazonaws.com:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
             String dbID = "ggoomter";                       //mysql 접속 id
             String dbPassword = "0070";            //mysql 접속 비밀번호
             Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
