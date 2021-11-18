@@ -16,8 +16,7 @@ alter table comment add primary key (commentID, bbsID);
 alter table comment add constraint bbsID_FK foreign key (bbsID) references bbs(bbsID);
 ALTER TABLE comment MODIFY commentID INT not null auto_increment;
 select max(bbsid), commentid from comment group by bbsID ;
-set @cnt = 0;
-update comment set commentID = @
+
 
 
 select * from BBS;
