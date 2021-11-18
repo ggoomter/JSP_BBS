@@ -118,7 +118,7 @@ public class BbsDAO {
     
     
     /**
-     * pageNumber에 해당하는 페이지를 출력해야하는지 판단
+     * pageNum에 해당하는 페이지를 출력해야하는지 판단
      * @param pageNum
      * @return
      */

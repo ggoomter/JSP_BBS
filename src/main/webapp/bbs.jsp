@@ -69,13 +69,19 @@
    	       </table>
 
    	       
-   	       <!-- 페이징처리 -->
+   	       <!-- 진짜 페이지 영역 구현될 위치 -->
+   	       
+   	       <!-- 기존의 페이징처리 -->
+   	       pageNum-1 = ${ pageNum-1 }<br>
+   	       bbsDAO.nextPage(pageNum) = ${bbsDAO.nextPage(pageNum) }<br>
+   	       
    	       <c:if test="${pageNum>=1}">
-   	            <a href="bbs.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
+   	       
+               <a href="bbs.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
            </c:if>   	            
    	       <c:if test="${not empty bbsDAO.nextPage(pageNum + 1)}">    <!-- 현재페이지에서 1더한페이지가 있으면 -->
-   	           <!-- 진짜 페이지 영역 구현될 위치 -->
-       	       <a href="bbs.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success btn-arrow-left">다음</a>   <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
+   	       
+       	       <a href="bbs.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success btn-arrow-left">다음</a>  <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
            </c:if>   	       
    	       
    	       <!-- 테이블밑의 버튼들 -->
