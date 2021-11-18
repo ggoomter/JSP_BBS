@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/logback-classic-1.2.7.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/logback-core-1.2.7.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/slf4j-api-1.7.31.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
