@@ -85,16 +85,16 @@ public class BbsDAO {
     
     /**
      * 글 목록
-     * @param pageNumber
+     * @param pageNum
      * @return 글의 목록은 갯수가 동적으로 정해지기 때문에 ArrayList사용.
      */
-    public ArrayList<Bbs> getList(int pageNumber){
+    public ArrayList<Bbs> getList(int pageNum){
         String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             
-            pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+            pstmt.setInt(1, getNext() - (pageNum-1)*10);
             /* 현재 총 글의 갯수가 12개면   13 - (1-1)*10 = 13
              * WHERE bbsID < 13 이 되어 13보다 작은 숫자만 가져온다 */
             rs = pstmt.executeQuery();
@@ -119,16 +119,16 @@ public class BbsDAO {
     
     /**
      * pageNumber에 해당하는 페이지를 출력해야하는지 판단
-     * @param pageNumber
+     * @param pageNum
      * @return
      */
-    public boolean nextPage(int pageNumber) {
+    public boolean nextPage(int pageNum) {
         String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             
-            pstmt.setInt(1, getNext() - (pageNumber-1)*10); //페이지 알고리즘
+            pstmt.setInt(1, getNext() - (pageNum-1)*10); //페이지 알고리즘
            //현재 총 글의 갯수가 12개이고 페이지번호로 2를 넘겼다면   13 - (2-1)*10 =   13-10   =3
            
             rs = pstmt.executeQuery();  

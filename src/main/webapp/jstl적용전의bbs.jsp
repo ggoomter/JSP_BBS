@@ -23,9 +23,9 @@
 <body>
 <%
     /* 페이지처리 */
-    int pageNumber = 1;    
-    if(request.getParameter("pageNumber")!=null){
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+    int pageNum = 1;    
+    if(request.getParameter("pageNum")!=null){
+        pageNum = Integer.parseInt(request.getParameter("pageNum"));
     }
 %>
 
@@ -48,7 +48,7 @@
                <!-- 글 리스트 동적 처리 -->
 <%
    BbsDAO bbsDAO = new BbsDAO();
-   ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
+   ArrayList<Bbs> list = bbsDAO.getList(pageNum);
    for(int i=0; i<list.size(); i++){
 %>
                    <tr>
@@ -68,13 +68,13 @@
            
            <!-- 페이징처리 -->
            <%
-                if(pageNumber != 1){
+                if(pageNum != 1){
            %>      
-                <a href="bbs.jsp?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arrow-left">이전</a>
+                <a href="bbs.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success btn-arrow-left">이전</a>
            <%   
-                } if(bbsDAO.nextPage(pageNumber + 1)){
+                } if(bbsDAO.nextPage(pageNum + 1)){
            %>
-               <a href="bbs.jsp?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arrow-left">다음</a>
+               <a href="bbs.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success btn-arrow-left">다음</a>
            <%   
                 }
            %>

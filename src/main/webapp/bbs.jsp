@@ -25,14 +25,14 @@
 <body>
 <%
 	/* 페이지처리 */
-	int pageNumber = 1;    
-	if(request.getParameter("pageNumber")!=null){
-	    pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	int pageNum = 1;    //페이지링크를 클릭한 번호
+	if(request.getParameter("pageNum")!=null){
+	    pageNum = Integer.parseInt(request.getParameter("pageNum"));   //없다면 0으로 세팅
 	}
 	
 	/* 글 목록 */
 	BbsDAO bbsDAO = new BbsDAO();
-	ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
+	ArrayList<Bbs> list = bbsDAO.getList(pageNum);
 	pageContext.setAttribute("list", list);
 %>
 
@@ -67,21 +67,16 @@
                </c:forEach>
     	       </tbody>
    	       </table>
+
    	       
    	       <!-- 페이징처리 -->
-   	       <%
-   	            if(pageNumber != 1){
-   	       %>      
-   	            <a href="bbs.jsp?pageNumber=<%=pageNumber-1%>" class="btn btn-success btn-arrow-left">이전</a>
-   	       <%   
-   	            } if(bbsDAO.nextPage(pageNumber + 1)){
-   	       %>
-   	            <!-- 진짜 페이지 영역 구현될 위치 -->
-       	       <a href="bbs.jsp?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arrow-left">다음</a>
-           <%   
-				}
-           %>
-   	       
+   	       <c:if test="${pageNum>=1}">
+   	            <a href="bbs.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
+           </c:if>   	            
+   	       <c:if test="${not empty bbsDAO.nextPage(pageNum + 1)}">    <!-- 현재페이지에서 1더한페이지가 있으면 -->
+   	           <!-- 진짜 페이지 영역 구현될 위치 -->
+       	       <a href="bbs.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success btn-arrow-left">다음</a>   <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
+           </c:if>   	       
    	       
    	       <!-- 테이블밑의 버튼들 -->
    	       <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
