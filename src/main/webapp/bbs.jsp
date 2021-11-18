@@ -76,6 +76,7 @@
    	       <%   
    	            } if(bbsDAO.nextPage(pageNumber + 1)){
    	       %>
+   	            <!-- 진짜 페이지 영역 구현될 위치 -->
        	       <a href="bbs.jsp?pageNumber=<%=pageNumber+1%>" class="btn btn-success btn-arrow-left">다음</a>
            <%   
 				}
