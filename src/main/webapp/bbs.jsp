@@ -3,6 +3,7 @@
 <%@ page import = "java.io.PrintWriter" %>
 <%@ page import = "bbs.BbsDAO" %>
 <%@ page import = "bbs.Bbs" %>
+<%@ page import = "page.Paging" %>
 <%@ page import = "java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -24,15 +25,17 @@
 </head>
 <body>
 <%
-	/* 페이지처리 */
-	int pageNum = 1;    //페이지링크를 클릭한 번호
-	if(request.getParameter("pageNum")!=null){
-	    pageNum = Integer.parseInt(request.getParameter("pageNum"));   //없다면 0으로 세팅
-	}
-	
+
+	/* 진짜 페이징처리 */
+	Paging paging = new Paging();
+	paging.setPageNo(1);
+    paging.setPageSize(10);
+    paging.setTotalCount(30);
+    pageContext.setAttribute("paging", paging);
+    
 	/* 글 목록 */
 	BbsDAO bbsDAO = new BbsDAO();
-	ArrayList<Bbs> list = bbsDAO.getList(pageNum);
+	ArrayList<Bbs> list = bbsDAO.getList(paging.getCurrentPage());
 	pageContext.setAttribute("list", list);
 %>
 
@@ -68,20 +71,25 @@
     	       </tbody>
    	       </table>
 
-   	       
-   	       <!-- 진짜 페이지 영역 구현될 위치 -->
-   	       
-   	       <!-- 기존의 페이징처리 -->
-   	       pageNum-1 = ${ pageNum-1 }<br>
-   	       bbsDAO.nextPage(pageNum) = ${bbsDAO.nextPage(pageNum) }<br>
-   	       
-   	       <c:if test="${pageNum>=1}">
-   	       
-               <a href="bbs.jsp?pageNum=<%=pageNum-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
+
+            <!-- 진짜 페이징처리 -->
+			<jsp:include page="paging.jsp" flush="true">
+			    <jsp:param name="firstPageNo" value="${paging.firstPageNo}" />
+			    <jsp:param name="prevPageNo" value="${paging.prevPageNo}" />
+			    <jsp:param name="startPageNo" value="${paging.startPageNo}" />
+			    <jsp:param name="pageNo" value="${paging.pageNo}" />
+			    <jsp:param name="endPageNo" value="${paging.endPageNo}" />
+			    <jsp:param name="nextPageNo" value="${paging.nextPageNo}" />
+			    <jsp:param name="finalPageNo" value="${paging.finalPageNo}" />
+			</jsp:include>
+
+            <!-- 기존의 페이징처리 -->
+   	       <c:if test="${paging.pageNo>=1}">
+               <a href="bbs.jsp?pageNo=<%=paging.getPageNo()-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
            </c:if>   	            
-   	       <c:if test="${not empty bbsDAO.nextPage(pageNum + 1)}">    <!-- 현재페이지에서 1더한페이지가 있으면 -->
+   	       <c:if test="${not empty bbsDAO.nextPage(paging.pageNo + 1)}">    <!-- 현재페이지에서 1더한페이지가 있으면 -->
    	       
-       	       <a href="bbs.jsp?pageNum=<%=pageNum+1%>" class="btn btn-success btn-arrow-left">다음</a>  <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
+       	       <a href="bbs.jsp?pageNo=<%=paging.getPageNo()+1%>" class="btn btn-success btn-arrow-left">다음</a>  <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
            </c:if>   	       
    	       
    	       <!-- 테이블밑의 버튼들 -->
@@ -92,5 +100,13 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    
+    
+    <script>
+    function goPage(pageNo){
+        location.href="bbs.jsp?pageNo="+pageNo;
+    }
+    
+    </script>
 </body>
 </html>
