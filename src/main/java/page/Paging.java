@@ -82,7 +82,8 @@ public class Paging {
         this.currentPage = currentPage;
     }
 
-    public int getTotalCount() {
+    //현재변수값 totalCount를 가지고옴. 진짜가져오는건 getBbsTotalCount
+    public int getTotalCount() {    
         this.makePaging();
         return totalCount;
     }
@@ -153,8 +154,8 @@ public class Paging {
 
         // 마지막 페이지
         int finalPage = (totalCount + (pageSize - 1)) / pageSize; 
-        if (this.pageNo > finalPage)
-            this.setPageNo(finalPage); // 기본 값 설정
+        if (this.pageNo > finalPage)    // 어떤 이유로든지 넘겨받은 페이지번호가 마지막보다 크다면
+            this.setPageNo(finalPage);  // 마지막 페이지로 설정
 
 
         // 현재페이지가 마지막페이지보다 넘게 입력되면 마지막 페이지로 기본 값 설정
@@ -180,7 +181,7 @@ public class Paging {
         if (isNowFirst) { //현재가 첫번째 페이지라면
             this.setPrevPageNo(1); // 이전 페이지 번호를 1로
         } else { //현재가 첫번째 페이지가 아니라면
-            this.setPrevPageNo((currentPage - 1) < 1 ? 1 : (currentPage - 1)); // 이전 페이지 번호
+            this.setPrevPageNo(currentPage - 1); // 현재 페이지번호 -1
         }
 
         this.setStartPageNo(startPage); // 시작 페이지 (페이징 네비 기준)
@@ -189,7 +190,7 @@ public class Paging {
         if (isNowFinal) {
             this.setNextPageNo(finalPage); // 다음 페이지 번호
         } else {
-            this.setNextPageNo(((pageNo + 1) > finalPage ? finalPage : (pageNo + 1))); // 다음 페이지 번호
+            this.setNextPageNo(pageNo + 1); // 현재페이지번호 +1
         }
 
         this.setFinalPageNo(finalPage); // 마지막 페이지 번호

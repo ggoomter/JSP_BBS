@@ -29,9 +29,8 @@
 
 	/* 진짜 페이징처리 */
 	Paging paging = new Paging();
-	paging.setPageNo(1);
     paging.setPageSize(10);
-    paging.setTotalCount(30);
+    paging.setTotalCount(paging.getBbsTotalCount());
     pageContext.setAttribute("paging", paging);
     
 	/* 글 목록 */
