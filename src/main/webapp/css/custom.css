@@ -17,6 +17,7 @@ h1{
     background-color: #99CC99;
 }
 
+
 /* 댓글 테이블의 + - 버튼 */
 #commentTable td img{
     max-width: 30%;
@@ -31,4 +32,8 @@ h1{
 .modifyBtn:hover, .minusBtn:hover{
     border-radius: 100%;
     border : 3px solid black;
+}
+
+.choice{
+    font-size: 3rem;
 }

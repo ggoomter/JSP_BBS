@@ -7,7 +7,7 @@
 <%@ page import = "java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%@ include file="commonInclude.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +22,7 @@
             text-decoration : none;   
         }
     </style>
+    
 </head>
 <body>
 <%
@@ -83,15 +84,6 @@
 			    <jsp:param name="finalPageNo" value="${paging.finalPageNo}" />
 			</jsp:include>
 
-            <!-- 기존의 페이징처리 -->
-   	       <c:if test="${paging.pageNo>=1}">
-               <a href="bbs.jsp?pageNo=<%=paging.getPageNo()-1%>" class="btn btn-success btn-arrow-left">이전</a>  <!-- 이전을 클릭하면 현재번호-1페이지로 이동 -->
-           </c:if>   	            
-   	       <c:if test="${not empty bbsDAO.nextPage(paging.pageNo + 1)}">    <!-- 현재페이지에서 1더한페이지가 있으면 -->
-   	       
-       	       <a href="bbs.jsp?pageNo=<%=paging.getPageNo()+1%>" class="btn btn-success btn-arrow-left">다음</a>  <!-- 다음을 클릭하면 현재번호+1페이지로 이동 -->
-           </c:if>   	       
-   	       
    	       <!-- 테이블밑의 버튼들 -->
    	       <a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
     	</div>
