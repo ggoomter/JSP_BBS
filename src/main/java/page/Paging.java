@@ -152,7 +152,7 @@ public class Paging {
         if (this.pageSize == 0)
             this.setPageSize(10); // 기본 값 설정
 
-        // 마지막 페이지
+        // 마지막 페이지 계산
         int finalPage = (totalCount + (pageSize - 1)) / pageSize; 
         if (this.pageNo > finalPage)    // 어떤 이유로든지 넘겨받은 페이지번호가 마지막보다 크다면
             this.setPageNo(finalPage);  // 마지막 페이지로 설정

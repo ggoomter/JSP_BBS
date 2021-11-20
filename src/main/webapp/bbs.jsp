@@ -29,8 +29,12 @@
 
 	/* 진짜 페이징처리 */
 	Paging paging = new Paging();
+    
     paging.setPageSize(10);
+    paging.setCurrentPage( Integer.parseInt(request.getParameter("pageNo"))); //url로 넘겨받은 페이지 번호
+    paging.setPageNo( Integer.parseInt(request.getParameter("pageNo"))); //url로 넘겨받은 페이지 번호
     paging.setTotalCount(paging.getBbsTotalCount());
+    
     pageContext.setAttribute("paging", paging);
     
 	/* 글 목록 */
@@ -40,6 +44,10 @@
 %>
 
     <jsp:include page="nav.jsp"/>
+    <script>
+    console.log("새롭게 연 bbs.jsp. currentPage = ${paging.currentPage}");
+    console.log("새롭게 연 bbs.jsp. pageNO = ${paging.pageNo}");
+    </script>
 
     <!-- 게시판 본문 -->
     <div class="container">
@@ -95,6 +103,7 @@
     
     <script>
     function goPage(pageNo){
+        
         location.href="bbs.jsp?pageNo="+pageNo;
     }
     
