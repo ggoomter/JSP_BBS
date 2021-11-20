@@ -25,16 +25,20 @@
     
 </head>
 <body>
+
+
 <%
 
 	/* 진짜 페이징처리 */
 	Paging paging = new Paging();
+    String pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
+    String currentPage = request.getParameter("currentPage")==null? pageNo : request.getParameter("currentPage");
+    
+    paging.setCurrentPage(Integer.parseInt(currentPage)); //url로 넘겨받은 페이지 번호
+    paging.setPageNo( Integer.parseInt(pageNo)); //url로 넘겨받은 페이지 번호
     
     paging.setPageSize(10);
-    paging.setCurrentPage( Integer.parseInt(request.getParameter("pageNo"))); //url로 넘겨받은 페이지 번호
-    paging.setPageNo( Integer.parseInt(request.getParameter("pageNo"))); //url로 넘겨받은 페이지 번호
     paging.setTotalCount(paging.getBbsTotalCount());
-    
     pageContext.setAttribute("paging", paging);
     
 	/* 글 목록 */
@@ -42,6 +46,7 @@
 	ArrayList<Bbs> list = bbsDAO.getList(paging.getCurrentPage());
 	pageContext.setAttribute("list", list);
 %>
+<c:set var="pageNo"></c:set>
 
     <jsp:include page="nav.jsp"/>
     <script>
