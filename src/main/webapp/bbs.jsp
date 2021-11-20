@@ -34,24 +34,22 @@
     String pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
     String currentPage = request.getParameter("currentPage")==null? pageNo : request.getParameter("currentPage");
     
-    paging.setCurrentPage(Integer.parseInt(currentPage)); //url로 넘겨받은 페이지 번호
     paging.setPageNo( Integer.parseInt(pageNo)); //url로 넘겨받은 페이지 번호
-    
+    paging.setCurrentPage(Integer.parseInt(currentPage)); //url로 넘겨받은 페이지 번호
     paging.setPageSize(10);
     paging.setTotalCount(paging.getBbsTotalCount());
-    pageContext.setAttribute("paging", paging);
+    pageContext.setAttribute("paging", paging); //다른 jsp로 전달하기 위해서 자바변수에 있던것을 jsp변수에 옮겨담음
     
 	/* 글 목록 */
 	BbsDAO bbsDAO = new BbsDAO();
 	ArrayList<Bbs> list = bbsDAO.getList(paging.getCurrentPage());
 	pageContext.setAttribute("list", list);
 %>
-<c:set var="pageNo"></c:set>
 
     <jsp:include page="nav.jsp"/>
     <script>
-    console.log("새롭게 연 bbs.jsp. currentPage = ${paging.currentPage}");
-    console.log("새롭게 연 bbs.jsp. pageNO = ${paging.pageNo}");
+    console.log('bbs.jsp입니다.');
+    console.log(${paging.pageNo});
     </script>
 
     <!-- 게시판 본문 -->
