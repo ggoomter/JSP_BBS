@@ -24,16 +24,20 @@
     </style>
 </head>
 <body>
-
+<%!
+Paging paging = null;
+int pageNo = 1;
+int currentPage = 1;
+%>
 
 <%
 	/* 진짜 페이징처리 */
-	Paging paging = new Paging();
-    String pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
-    String currentPage = request.getParameter("currentPage")==null? pageNo : request.getParameter("currentPage");
-    
-    paging.setPageNo( Integer.parseInt(pageNo)); //url로 넘겨받은 페이지 번호
-    paging.setCurrentPage(Integer.parseInt(currentPage)); //url로 넘겨받은 페이지 번호
+	paging = new Paging();
+    pageNo = request.getParameter("pageNo")==null? 1 : Integer.parseInt(request.getParameter("pageNo"));
+    currentPage = request.getParameter("currentPage")==null? pageNo : Integer.parseInt((request.getParameter("currentPage")));
+    out.println(pageNo);    //임시 출력
+    paging.setPageNo( pageNo); //url로 넘겨받은 페이지 번호
+    paging.setCurrentPage(currentPage); //url로 넘겨받은 페이지 번호
     paging.setPageSize(10);
     paging.setTotalCount(paging.getBbsTotalCount());
     pageContext.setAttribute("paging", paging); //다른 jsp로 전달하기 위해서 자바변수에 있던것을 jsp변수에 옮겨담음
@@ -68,7 +72,8 @@
                <c:forEach var="board" items="${list}" varStatus="status">
 					<tr>
                        <td class="col-md-1">${board.bbsID}</td>
-                       <td class="col-md-5"><a href="view.jsp?bbsID=${board.bbsID}"> <c:out value ="${board.bbsTitle}" escapeXml="true"></c:out></a></td><!-- 특수문자나 공백, 줄띄움 처리 --> 
+                       <td class="col-md-5"><a href="view.jsp?bbsID=${board.bbsID}&pageNo=${paging.pageNo}"> <c:out value ="${board.bbsTitle}" escapeXml="true"></c:out></a></td><!-- 특수문자나 공백, 줄띄움 처리 -->
+                       <!-- &pageNo=${pageNo}" 라고 하면 왜 안될까--> 
                        <td class="col-md-2">${board.userID}</td>
                        
                        <!-- db에는 datetime이지만 자바객체에선 String 이기때문에 먼저 parseDate를 통해 date형태로 값을 파싱후에 formatDate사용 -->

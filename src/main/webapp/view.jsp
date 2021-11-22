@@ -31,9 +31,13 @@
 </head>
 <body>
 <%@ include file="session.jsp" %><!-- 정적포함 -->
-<%
-	int bbsID = 0;
+<%!
+    String pageNo = null;
+    int bbsID = 0;
     int commentID = 0;
+    Bbs bbs = null;
+%>
+<%
 	if(request.getParameter("bbsID")!=null){   //request에 bbsID가 없다면
 	    bbsID = Integer.parseInt(request.getParameter("bbsID"));   //다시 받아오도록
 	}
@@ -44,10 +48,10 @@
         script.println("location.href = 'bbs.jsp'");  
         script.println("</script>");
 	}
-	Bbs bbs = new BbsDAO().getBbs(bbsID);  //해당 글데이터 받아오기
-
+	bbs = new BbsDAO().getBbs(bbsID);  //해당 글데이터 받아오기
+    pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
+    out.println(pageNo);    //임시로 출력
 %>
-
 
     <jsp:include page="nav.jsp"/>
 
@@ -88,7 +92,8 @@
     	       </tbody>
    	       </table>
    	       <div class="text-center">
-   	            <a href="bbs.jsp" class="btn btn-primary pull-width">목록</a>
+   	            <a href="javascript:goPage(<%= request.getParameter("pageNo")%>)"  class="btn btn-primary pull-width">목록</a>
+                <%-- ${pageNo} 하면 왜 안될까?  --%>
    	       </div>
    	       <!-- 작성자가 본인이라면 수정과 삭제가 가능하도록 -->
    	       <%
@@ -288,6 +293,9 @@
     }
     	
 
+    function goPage(pageNo){
+        location.href="bbs.jsp?pageNo="+pageNo;
+    }
 
     
     </script>    
