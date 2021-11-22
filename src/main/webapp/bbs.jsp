@@ -22,13 +22,11 @@
             text-decoration : none;   
         }
     </style>
-    
 </head>
 <body>
 
 
 <%
-
 	/* 진짜 페이징처리 */
 	Paging paging = new Paging();
     String pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
@@ -84,6 +82,7 @@
 
 
             <!-- 진짜 페이징처리 -->
+            <!-- paging.jsp를 호출하면서 파라미터로 아래의 것들을 넘겨준다. -->
 			<jsp:include page="paging.jsp" flush="true">
 			    <jsp:param name="firstPageNo" value="${paging.firstPageNo}" />
 			    <jsp:param name="prevPageNo" value="${paging.prevPageNo}" />
@@ -106,7 +105,6 @@
     
     <script>
     function goPage(pageNo){
-        
         location.href="bbs.jsp?pageNo="+pageNo;
     }
     
