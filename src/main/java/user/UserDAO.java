@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +64,7 @@ public class UserDAO {
      * 회원가입
      * @param user
      * @return
+     * @throws SQLException 
      */
     public int join(User user) {
         String SQL = "INSERT INTO USER VALUES (?, ?, ?, ?, ?)";
@@ -75,7 +78,12 @@ public class UserDAO {
             pstmt.setString(4,  user.getUserGender());      //성별
             pstmt.setString(5,  user.getUserEmail());       //이메일
             return pstmt.executeUpdate();   //SELECT빼고 모든 쿼리실행
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            return -1;  //데이터베이스 오류
+        } catch (SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            return -2;
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
 			try {
@@ -86,7 +94,8 @@ public class UserDAO {
 				e2.printStackTrace();
 			}
 		}
-        return -1;  //데이터베이스 오류
+        return 0;
+        
     }
     
     

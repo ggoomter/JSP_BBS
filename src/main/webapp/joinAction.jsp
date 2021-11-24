@@ -42,8 +42,15 @@
        }else{
 	        UserDAO userDAO = new UserDAO();
 	        int result = userDAO.join(user);   //회원가입 실행
-	        
-	        if(result == -1){      //회원가입 실패
+            if(result == -1){      //db연결에러로 회원가입실패
+                PrintWriter script = response.getWriter();
+                script.println("<script>");
+                script.println("alert('데이터베이스 연결을 하지 못했습니다.')");
+                script.println("history.back()");
+                script.println("</script>");
+             }
+            
+	        if(result == -2){      //중복체크로 회원가입 실패
 	            PrintWriter script = response.getWriter();
 	            script.println("<script>");
 	            script.println("alert('이미 존재하는 아이디입니다.')");
