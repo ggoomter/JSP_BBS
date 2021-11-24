@@ -3,6 +3,8 @@
 <%@ page import="user.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <jsp:useBean id = "user" class="user.User" scope="page" />
 <jsp:setProperty name ="user" property="userID" />
 <jsp:setProperty name ="user" property="userPassword" />
@@ -15,16 +17,15 @@
 </head>
 <body>
     <%@ include file="session.jsp" %><!-- 정적포함 -->
-    <%
-        if(userID !=null){  //이미 로그인된사람은 로그인되지 않도록 하는 처리
+    <c:if test="${sessionScope.userID}!=null"><!-- 이미 로그인된사람은 로그인 할수없도록 하는 처리.--> 
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("alert('이미 로그인 되어있습니다.')");
             script.println("location.href = 'main.jsp'");
             script.println("</script>");
-        }
+    </c:if>
         
-    
+    <%
         UserDAO userDAO = new UserDAO();
         int result = userDAO.login(user.getUserID(), user.getUserPassword());
         
