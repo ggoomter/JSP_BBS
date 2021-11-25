@@ -33,11 +33,7 @@
             <c:out value="alert('msg')" />  
     </c:if>
 
-        
-<%--     <%  result = userDAO.login(user.getUserID(), user.getUserPassword());
-        out.println("로그인 리절트 결과 : "+result);    //이까지 잘 받아옴
-        out.println("로그인 리절트 1과 비교결과 : "+(result == 1));    //비교잘함
-    %> --%>
+
     <%
     result = userDAO.login(user.getUserID(), user.getUserPassword());
     %>
@@ -46,56 +42,47 @@
 
     <c:choose>
         <c:when test="${result == 1}"> <!-- 로그인 성공 -->
-            <%
-            session.setAttribute("userID", user.getUserID());   //세션값부여
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('로그인 성공')");
-            script.println("location.href = 'main.jsp'");
-            script.println("</script>");
-            %>
+            <!-- 세션에 할당 -->
+            <c:set scope="session" var="userID" value="<%=user.getUserID() %>"></c:set>
+            <c:out escapeXml="false" value="
+                <script type='text/javascript'>
+                    alert('로그인 성공');
+                    location.href = 'main.jsp';
+                </script>"
+             />
         </c:when>
         <c:when test="${result == 0}"> <!-- 비밀번호 불일치 -->
-            <%
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('비밀번호가 틀립니다.')");
-            script.println("history.back()");
-            script.println("</script>");
-            %>
+            <c:out escapeXml="false" value="
+                <script type='text/javascript'>
+                    alert('비밀번호가 틀립니다.');
+                    history.back();
+                </script>"
+            />
         </c:when>
         <c:when test="${result == -1}"> <!-- 아이디가 없음 -->
-            <%
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('존재하지 않는 아이디입니다.')");
-            script.println("history.back()");
-            script.println("</script>");
-            %>
+            <c:out escapeXml="false" value="
+                <script type='text/javascript'>
+                    alert('존재하지 않는 아이디입니다.');
+                    history.back();
+                </script>"
+            />
         </c:when>
         <c:when test="${result == -2}"> <!-- 데이터베이스 오류 -->
-            <%
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('데이터베이스 오류가 발생했습니다.')");
-            script.println("history.back()");
-            script.println("</script>");
-            %>
+            <c:out escapeXml="false" value="
+                <script type='text/javascript'>
+                    alert('데이터베이스 오류가 발생했습니다.');
+                    history.back();
+                </script>"
+            />
         </c:when>
         <c:otherwise>
-            <% 
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('jstl otherwise 테스트')");
-            script.println("history.back()");
-            script.println("</script>");
-            script.flush();
-            script.close();
-            %>
+            <c:out escapeXml="false" value="
+                <script type='text/javascript'>
+                    alert('예상치 못한 에러를 만났습니다.');
+                    history.back();
+                </script>"
+            />
         </c:otherwise>
     </c:choose>
-    
-    <BR>
-    업데이트중 확인3
 </body>
 </html>
