@@ -26,33 +26,36 @@
     int result = -999;
     String msg = "";
     %>
+    <c:set var="msg" value="Hello" scope="page" />
     
     <c:if test="${sessionScope.userID}!=null"><!-- 이미 로그인된사람은 로그인 할수없도록 하는 처리.--> 
             <c:set var="msg" value="이미 로그인 되어있습니다."></c:set>
-            <c:out value="alert('msg')" />
-
+            <c:out value="alert('msg')" />  
     </c:if>
+
         
-    <%  result = userDAO.login(user.getUserID(), user.getUserPassword());
-        out.println("로그인 리절트 결과 : "+result);
-        out.println("로그인 리절트 1과 비교결과 : "+(result == 1));
-        
+<%--     <%  result = userDAO.login(user.getUserID(), user.getUserPassword());
+        out.println("로그인 리절트 결과 : "+result);    //이까지 잘 받아옴
+        out.println("로그인 리절트 1과 비교결과 : "+(result == 1));    //비교잘함
+    %> --%>
+    <%
+    result = userDAO.login(user.getUserID(), user.getUserPassword());
     %>
-    
+    <c:set var="result" value="<%=result%>" scope="page" />
+
+
     <c:choose>
         <c:when test="${result == 1}"> <!-- 로그인 성공 -->
-            로그인성공
             <%
-            out.println("choose의 when==1 안");
+            session.setAttribute("userID", user.getUserID());   //세션값부여
             PrintWriter script = response.getWriter();
             script.println("<script>");
-            script.println("alert('비밀번호가 틀립니다.')");
-            script.println("history.back()");
+            script.println("alert('로그인 성공')");
+            script.println("location.href = 'main.jsp'");
             script.println("</script>");
             %>
         </c:when>
         <c:when test="${result == 0}"> <!-- 비밀번호 불일치 -->
-            비밀번호불일치
             <%
             PrintWriter script = response.getWriter();
             script.println("<script>");
@@ -62,7 +65,6 @@
             %>
         </c:when>
         <c:when test="${result == -1}"> <!-- 아이디가 없음 -->
-            아이디가없음
             <%
             PrintWriter script = response.getWriter();
             script.println("<script>");
@@ -72,7 +74,6 @@
             %>
         </c:when>
         <c:when test="${result == -2}"> <!-- 데이터베이스 오류 -->
-            데이터베이스오류
             <%
             PrintWriter script = response.getWriter();
             script.println("<script>");
@@ -82,7 +83,6 @@
             %>
         </c:when>
         <c:otherwise>
-            디폴트
             <% 
             PrintWriter script = response.getWriter();
             script.println("<script>");

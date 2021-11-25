@@ -35,7 +35,6 @@ int currentPage = 1;
 	paging = new Paging();
     pageNo = request.getParameter("pageNo")==null? 1 : Integer.parseInt(request.getParameter("pageNo"));
     currentPage = request.getParameter("currentPage")==null? pageNo : Integer.parseInt((request.getParameter("currentPage")));
-    out.println(pageNo);    //임시 출력
     paging.setPageNo( pageNo); //url로 넘겨받은 페이지 번호
     paging.setCurrentPage(currentPage); //url로 넘겨받은 페이지 번호
     paging.setPageSize(10);
