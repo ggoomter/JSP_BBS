@@ -13,11 +13,11 @@ public class CommentDAO {
     
     public CommentDAO() {
         try {
-            //mysql 접속 정보
-            String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
-            String dbID = "ggoomter";                       //mysql 접속 id
-            String dbPassword = "0070";            //mysql 접속 비밀번호
-            Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            String dbURL = "jdbc:oracle:thin:@localhost:1521";
+            String dbID = "scott";              //oracle 접속 id
+            String dbPassword = "tiger";        //oracle 접속 비밀번호
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class CommentDAO {
 
     // 다음댓글의 번호 가져오기
     public int getNext() {
-        String SQL = "SELECT commentID FROM COMMENT ORDER BY commentID DESC";   //내림차순이기때문에 마지막글에쓴글이 제일 위에 뜸
+        String SQL = "SELECT commentID FROM BBS_COMMENT ORDER BY commentID DESC";   //내림차순이기때문에 마지막글에쓴글이 제일 위에 뜸
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
@@ -59,7 +59,7 @@ public class CommentDAO {
     
     //댓글 쓰기
     public int write(String bbsID, String userID, String commentText) {
-        String SQL = "INSERT INTO COMMENT VALUES (?,?,?,?,?)";
+        String SQL = "INSERT INTO BBS_COMMENT VALUES (?,?,?,?,?)";
         try {
             System.out.println("댓글 쓰기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -82,7 +82,7 @@ public class CommentDAO {
      * @return 댓글의 목록은 갯수가 동적으로 정해지기 때문에 ArrayList사용.
      */
     public ArrayList<Comment> getList(int bbsID, int number){
-        String SQL = "SELECT * FROM COMMENT WHERE bbsID = ? ORDER BY commentID DESC LIMIT ?";
+        String SQL = "SELECT * FROM BBS_COMMENT WHERE bbsID = ? ORDER BY commentID DESC LIMIT ?";
         ArrayList<Comment> list = new ArrayList<Comment>();        
         try {
             System.out.println("댓글 목록");
@@ -111,7 +111,7 @@ public class CommentDAO {
     
     //댓글 수정
     public int update(int bbsID, int commentID, String commentText) {
-        String SQL = "UPDATE COMMENT SET commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
+        String SQL = "UPDATE BBS_COMMENT SET commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
         try {
             System.out.println("댓글 수정");
             System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s\n", bbsID, commentID, commentText);
@@ -129,7 +129,7 @@ public class CommentDAO {
     
     //댓글 삭제
     public int delete(int bbsID, int commentID) {
-        String SQL = "DELETE FROM COMMENT WHERE bbsID=? and commentID = ?";
+        String SQL = "DELETE FROM BBS_COMMENT WHERE bbsID=? and commentID = ?";
         try {
             System.out.println("댓글 삭제");
             PreparedStatement pstmt = conn.prepareStatement(SQL);

@@ -17,16 +17,17 @@ public class BbsDAO {
     private Connection conn = null;
     private ResultSet rs = null;
     PreparedStatement pstmt = null;
-    String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
-    String dbID = "ggoomter";                       //mysql 접속 id
-    String dbPassword = "0070";            //mysql 접속 비밀번호
+    String dbURL = "jdbc:oracle:thin:@localhost:1521";
+    String dbID = "scott";              //oracle 접속 id
+    String dbPassword = "tiger";        //oracle 접속 비밀번호
     
 
     
     public String getDate() {
         String SQL = "SELECT NOW()";
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
@@ -50,9 +51,10 @@ public class BbsDAO {
 
     // 다음글의 번호 가져오기
     public int getNext() {
-        String SQL = "SELECT bbsID FROM BBS ORDER BY bbsID DESC";   //내림차순이기때문에 마지막글에쓴글이 제일 위에 뜸
+        String SQL = "SELECT bbsID FROM BBS_BOARD ORDER BY bbsID DESC";   //내림차순이기때문에 마지막글에쓴글이 제일 위에 뜸
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
         	PreparedStatement pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
@@ -77,10 +79,11 @@ public class BbsDAO {
     
     //글쓰기
     public int write(String bbsTitle, String userID, String bbsContent) {
-        String SQL = "INSERT INTO BBS (bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable) VALUES (?,?,?,?,?,?)";
+        String SQL = "INSERT INTO BBS_BOARD (bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable) VALUES (?,?,?,?,?,?)";
         try {
         	System.out.println("글쓰기");
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, getNext());
@@ -111,10 +114,11 @@ public class BbsDAO {
      * @return 글의 목록은 갯수가 동적으로 정해지기 때문에 ArrayList사용.
      */
     public ArrayList<Bbs> getList(int pageNum){
-        String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+        String SQL = "SELECT * FROM BBS_BOARD WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             
@@ -155,10 +159,11 @@ public class BbsDAO {
      * @return
      */
     public boolean nextPage(int pageNum) {
-        String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ";
+        String SQL = "SELECT * FROM BBS_BOARD WHERE bbsID < ? AND bbsAvailable = 1 ";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             
@@ -188,11 +193,12 @@ public class BbsDAO {
      * 하나의 글을 자세하게 보는 기능
      */
     public Bbs getBbs(int bbsID) {
-        String SQL = "SELECT * FROM BBS WHERE bbsID = ?";
+        String SQL = "SELECT * FROM BBS_BOARD WHERE bbsID = ?";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
         	System.out.println("글 자세히 보기");
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1,  bbsID);
@@ -226,9 +232,10 @@ public class BbsDAO {
     
     //글 수정
     public int update(int bbsID, String bbsTitle, String bbsContent) {
-        String SQL = "UPDATE BBS SET bbsTitle=?, bbsContent = ? WHERE bbsID = ?";
+        String SQL = "UPDATE BBS_BOARD SET bbsTitle=?, bbsContent = ? WHERE bbsID = ?";
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, bbsTitle);
@@ -251,9 +258,10 @@ public class BbsDAO {
     
     //글 삭제
     public int delete(int bbsID, String bbsTitle, String bbsContent) {
-        String SQL = "UPDATE BBS SET bbsAvailable=0 WHERE bbsID = ?";
+        String SQL = "UPDATE BBS_BOARD SET bbsAvailable=0 WHERE bbsID = ?";
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, bbsID);
@@ -275,9 +283,10 @@ public class BbsDAO {
     
     //게시글 보면 조회수 1 증가
     public int increaseViewCount(int bbsID) {
-        String SQL = "UPDATE BBS SET VIEWCOUNT=VIEWCOUNT+1 WHERE bbsID = ?";
+        String SQL = "UPDATE BBS_BOARD SET VIEWCOUNT=VIEWCOUNT+1 WHERE bbsID = ?";
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, bbsID);

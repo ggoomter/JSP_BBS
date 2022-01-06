@@ -56,9 +56,8 @@
 
 	
 
-
-	   <script>
-        $("#userInputID").blur(function(){
+	   <script>       
+ 		$("#userInputID").blur(function(){
             $.ajax({
               type : 'post',
               url : 'idCheckServlet',
@@ -77,7 +76,6 @@
               }
             })
         })
-    
     </script>
 </body>
 </html>

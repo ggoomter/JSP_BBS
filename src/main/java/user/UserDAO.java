@@ -17,9 +17,9 @@ public class UserDAO {
     private PreparedStatement pstmt;
     private ResultSet rs;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
-    String dbID = "ggoomter";                       //mysql 접속 id
-    String dbPassword = "0070";            //mysql 접속 비밀번호
+    String dbURL = "jdbc:oracle:thin:@localhost:1521";
+    String dbID = "scott";              //oracle 접속 id
+    String dbPassword = "tiger";        //oracle 접속 비밀번호
     
     
     /**
@@ -29,10 +29,11 @@ public class UserDAO {
      * @return
      */
     public int login(String userID, String userPassword) {
-        String SQL = "SELECT userPassword FROM USER WHERE userID = ?";
+        String SQL = "SELECT userPassword FROM BBS_USER WHERE userID = ?";
         try {
             logger.debug("<접속시도> 아이디 : "+userID +"  비밀번호 : "+ userPassword);
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, userID); // 첫번째 ?에 userID의 값 대입
@@ -75,9 +76,10 @@ public class UserDAO {
      * @throws SQLException 
      */
     public int join(User user) {
-        String SQL = "INSERT INTO USER VALUES (?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO BBS_USER VALUES (?, ?, ?, ?, ?)";
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1,  user.getUserID());          //아이디
@@ -85,7 +87,8 @@ public class UserDAO {
             pstmt.setString(3,  user.getUserName());        //이름
             pstmt.setString(4,  user.getUserGender());      //성별
             pstmt.setString(5,  user.getUserEmail());       //이메일
-            return pstmt.executeUpdate();   //SELECT빼고 모든 쿼리실행
+            pstmt.executeUpdate();   //SELECT빼고 모든 쿼리실행
+            return 0;
         } catch (ClassNotFoundException e) {
             return -1;  //데이터베이스 오류
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -93,6 +96,7 @@ public class UserDAO {
             return -2;
         } catch (SQLException e) {
             e.printStackTrace();
+            return -3;
         } finally {
 			try {
 				if(rs!=null)	  rs.close();
@@ -102,7 +106,6 @@ public class UserDAO {
 				e2.printStackTrace();
 			}
 		}
-        return 0;
         
     }
     
@@ -113,10 +116,11 @@ public class UserDAO {
      * @return
      */
     public int idCheck(String userID) {
-        String SQL = "SELECT userID FROM USER WHERE userID = ?";
+        String SQL = "SELECT userID FROM BBS_USER WHERE userID = ?";
         int result = -2;
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, userID); // 첫번째 ?에 userID의 값 대입

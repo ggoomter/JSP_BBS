@@ -7,7 +7,7 @@ create table BBS_COMMENT(
     commentDate varchar2(50)
 );
 
-/* PK, FK 異붽� */
+/* PK, FK 추�? */
 alter table BBS_COMMENT add primary key (commentID, bbsID); 
 alter table BBS_COMMENT add constraint bbsID_FK foreign key (bbsID) references BBS_BOARD(bbsID);
 

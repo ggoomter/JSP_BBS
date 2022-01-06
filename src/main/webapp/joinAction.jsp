@@ -33,6 +33,8 @@
     <%
        /* 유효성검사 */
        /* 널검사 */
+       
+       /* 모든 예외처리를 해야되고, 회원가입이 성공일때 조건을 제일위로 올려서 성능향상 */
        if(user.getUserID()==null || user.getUserPassword()==null || user.getUserName()==null 
        || user.getUserGender()==null || user.getUserEmail()==null){
            PrintWriter script = response.getWriter();
@@ -43,26 +45,32 @@
        }else{
 	        UserDAO userDAO = new UserDAO();
 	        int result = userDAO.join(user);   //회원가입 실행
-            if(result == -1){      //db연결에러로 회원가입실패
+	        if(result == 0) {    //회원가입 성공
+	            session.setAttribute("userID", user.getUserID());   //세션값부여
+	            PrintWriter script = response.getWriter();
+	            script.println("<script>");
+	            script.println("location.href = 'main.jsp'");
+	            script.println("</script>");
+	        }
+	        else if(result == -1){      //db연결에러로 회원가입실패
                 PrintWriter script = response.getWriter();
                 script.println("<script>");
                 script.println("alert('데이터베이스 연결을 하지 못했습니다.')");
                 script.println("history.back()");
                 script.println("</script>");
              }
-            
-	        if(result == -2){      //중복체크로 회원가입 실패
+            else if(result == -2){      //중복체크로 회원가입 실패
 	            PrintWriter script = response.getWriter();
 	            script.println("<script>");
 	            script.println("alert('이미 존재하는 아이디입니다.')");
 	            script.println("history.back()");
 	            script.println("</script>");
 	        }
-	        else {                 //회원가입 성공
-	            session.setAttribute("userID", user.getUserID());   //세션값부여
+            else if(result == -3){      //그밖의 모든 예외
 	            PrintWriter script = response.getWriter();
 	            script.println("<script>");
-	            script.println("location.href = 'main.jsp'");
+	            script.println("alert('회원가입에 실패했습니다.')");
+	            script.println("history.back()");
 	            script.println("</script>");
 	        }
        }
