@@ -24,20 +24,7 @@ public class CommentDAO {
         }
     }
     
-    
-    public String getDate() {
-        String SQL = "SELECT NOW()";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
-            if(rs.next()) {
-                return rs.getString(1); //현재의 날짜 반환
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";       
-    }
+  
     
 
     // 다음댓글의 번호 가져오기
@@ -59,15 +46,14 @@ public class CommentDAO {
     
     //댓글 쓰기
     public int write(String bbsID, String userID, String commentText) {
-        String SQL = "INSERT INTO BBS_COMMENT VALUES (?,?,?,?,?)";
+        String SQL = "INSERT INTO BBS_COMMENT VALUES (?,?,?,?, sysdate)";
         try {
             System.out.println("댓글 쓰기");
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setInt(1, getNext());
-            pstmt.setString(2, bbsID);
+            pstmt.setString(1, bbsID);
+            pstmt.setInt(2, getNext());
             pstmt.setString(3, commentText);
             pstmt.setString(4, userID);
-            pstmt.setString(5, getDate());
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +68,7 @@ public class CommentDAO {
      * @return 댓글의 목록은 갯수가 동적으로 정해지기 때문에 ArrayList사용.
      */
     public ArrayList<Comment> getList(int bbsID, int number){
-        String SQL = "SELECT * FROM BBS_COMMENT WHERE bbsID = ? ORDER BY commentID DESC LIMIT ?";
+        String SQL = "SELECT * FROM BBS_COMMENT WHERE bbsID = ? AND ROWNUM <= ? ORDER BY commentID DESC";
         ArrayList<Comment> list = new ArrayList<Comment>();        
         try {
             System.out.println("댓글 목록");
@@ -111,15 +97,14 @@ public class CommentDAO {
     
     //댓글 수정
     public int update(int bbsID, int commentID, String commentText) {
-        String SQL = "UPDATE BBS_COMMENT SET commentText = ?, commentDate = ? WHERE commentID = ? AND bbsID=?";
+        String SQL = "UPDATE BBS_COMMENT SET commentText = ?, commentDate = SYSDATE WHERE commentID = ? AND bbsID=?";
         try {
             System.out.println("댓글 수정");
             System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s\n", bbsID, commentID, commentText);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, commentText);
-            pstmt.setString(2, getDate());
-            pstmt.setInt(3, commentID);
-            pstmt.setInt(4, bbsID);
+            pstmt.setInt(2, commentID);
+            pstmt.setInt(3, bbsID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

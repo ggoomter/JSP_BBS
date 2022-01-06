@@ -18,3 +18,6 @@ select * from BBS_BOARD;
 select * from BBS_COMMENT order by bbsid, commentID ;
 select * from BBS_USER;
 
+SELECT commentID FROM BBS_COMMENT ORDER BY commentID DESC;
+INSERT INTO BBS_COMMENT VALUES (1,10,'db∑Œ≥÷¿∫¥Ò±€','ggoomter', sysdate);
+bbsID, commentID
