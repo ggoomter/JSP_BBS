@@ -22,32 +22,6 @@ public class BbsDAO {
     String dbPassword = "tiger";        //oracle 접속 비밀번호
     
 
-    
-    public String getDate() {
-        String SQL = "SELECT NOW()";
-        try {
-        	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
-            pstmt = conn.prepareStatement(SQL);
-            rs = pstmt.executeQuery();
-            if(rs.next()) {
-                return rs.getString(1); //현재의 날짜 반환
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-			try {
-				if(rs!=null)	  rs.close();
-				if(pstmt !=null)  pstmt.close();
-				if(conn!=null) 	  conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-        return "";       
-    }
-    
 
     // 다음글의 번호 가져오기
     public int getNext() {
@@ -79,7 +53,7 @@ public class BbsDAO {
     
     //글쓰기
     public int write(String bbsTitle, String userID, String bbsContent) {
-        String SQL = "INSERT INTO BBS_BOARD (bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable) VALUES (?,?,?,?,?,?)";
+        String SQL = "INSERT INTO BBS_BOARD (bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable) VALUES (?,?,?,SYSDATE,?,?)";
         try {
         	System.out.println("글쓰기");
         	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩
@@ -89,9 +63,8 @@ public class BbsDAO {
             pstmt.setInt(1, getNext());
             pstmt.setString(2, bbsTitle);
             pstmt.setString(3, userID);
-            pstmt.setString(4, getDate());
-            pstmt.setString(5, bbsContent);
-            pstmt.setInt(6, 1); //available. 첫글을썼을땐 true
+            pstmt.setString(4, bbsContent);
+            pstmt.setInt(5, 1); //available. 첫글을썼을땐 true
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,7 +87,7 @@ public class BbsDAO {
      * @return 글의 목록은 갯수가 동적으로 정해지기 때문에 ArrayList사용.
      */
     public ArrayList<Bbs> getList(int pageNum){
-        String SQL = "SELECT * FROM BBS_BOARD WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+        String SQL = "SELECT * FROM BBS_BOARD WHERE bbsID < ? AND bbsAvailable = 1 and ROWNUM<=10 ORDER BY bbsID DESC";
         ArrayList<Bbs> list = new ArrayList<Bbs>();        
         try {
         	//Class.forName("com.mysql.cj.jdbc.Driver");  //드라이버 인터페이스를 구현한 클래스를 로딩

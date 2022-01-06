@@ -23,10 +23,10 @@ public class Paging {
     public Paging() {
         try {
             //mysql 접속 정보
-            String dbURL = "jdbc:mysql://localhost:3306/BBS?characterEncoding=UTF-8&serverTimezone=UTC";
-            String dbID = "ggoomter"; //mysql 접속 id
-            String dbPassword = "0070"; //mysql 접속 비밀번호
-            Class.forName("com.mysql.cj.jdbc.Driver"); //드라이버 인터페이스를 구현한 클래스를 로딩
+            String dbURL = "jdbc:oracle:thin:@localhost:1521";
+            String dbID = "scott";              //oracle 접속 id
+            String dbPassword = "tiger";
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,8 +201,8 @@ public class Paging {
     // 하나의 페이지에 보여줄 글 리스트
     public List<Bbs> getBbsList(int startRow, int endRow) throws SQLException {
         // 페이징 처리를 위한 sql / 인라인뷰, rownum 사용
-        String SQL = "select @rownum:=@rownum+1, bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable, VIEWCOUNT "
-                + "FROM bbs, (SELECT @rownum:=0) TMP " + "where bbsId between ? and ? " + "order by bbsID desc";
+        String SQL = "SELECT bbsID, bbsTitle, userID, bbsDate, bbsContent, bbsAvailable, VIEWCOUNT\r\n"
+        		+ "FROM BBS_BOARD where bbsId between ? and ? order by bbsID DESC";
         List<Bbs> list = null;
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -235,7 +235,7 @@ public class Paging {
     
     public int getBbsTotalCount() throws SQLException {
         int count = 0;
-        String SQL = "SELECT COUNT(*) FROM BBS";
+        String SQL = "SELECT COUNT(*) FROM BBS_BOARD";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery(); // sql 실행
