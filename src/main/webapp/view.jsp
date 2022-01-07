@@ -32,15 +32,11 @@
 <body>
 <%@ include file="session.jsp" %><!-- 정적포함 -->
 <%!
-    String pageNo = null;
+    int pageNo = 1;
     int bbsID = 0;
     int commentID = 0;
     Bbs bbs = null;
 %>
-<script>
-console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 쓰면 비어있음
-
-</script>
 <%
 	if(request.getParameter("bbsID")!=null){   //request에 bbsID가 없다면
 	    bbsID = Integer.parseInt(request.getParameter("bbsID"));   //다시 받아오도록
@@ -53,9 +49,14 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
         script.println("</script>");
 	}
 	bbs = new BbsDAO().getBbs(bbsID);  //해당 글데이터 받아오기
-    pageNo = request.getParameter("pageNo")==null? "1" : request.getParameter("pageNo");
-    out.println(pageNo);    //임시로 출력
+    pageNo = request.getParameter("pageNo")==null? 1 : Integer.parseInt(request.getParameter("pageNo"));
+	//글쓰기전에 잘 받아옴. 글쓰면 1로됨.
 %>
+<script>
+let pageNo = <%=pageNo%>;
+console.log("view.jsp입니다. "+<%=pageNo%>);	
+console.log("view.jsp입니다. "+"<%=pageNo%>");
+</script>
 
     <jsp:include page="nav.jsp"/>
 
@@ -69,7 +70,6 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
 	    	       </tr>
     	       </thead>
     	       <tbody>
-    	       
     	           <tr>
     	               <td style="width:20%">글 제목</td>
     	               <td colspan="2"><%=bbs.getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br>") %></td>
@@ -92,27 +92,21 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
                        <td>조회수</td>
                        <td colspan="2"><%= bbs.getViewCount()%></td>
                    </tr>
-
     	       </tbody>
    	       </table>
    	       <div class="text-center">
-   	            <%-- <a href="javascript:goPage(<%= request.getParameter("pageNo")%>)"  class="btn btn-primary pull-width">목록</a> --%>   <!-- null -->
-   	            <a href="javascript:goPage(${param.pageNo})"   class="btn btn-primary pull-width">목록</a>	<!-- undefined -->
-                <%-- ${pageNo} 하면 왜 안될까?  --%>
+   	            <a href="javascript:goPage(<%=pageNo%>)"   class="btn btn-primary pull-width">목록</a>
    	       </div>
    	       <!-- 작성자가 본인이라면 수정과 삭제가 가능하도록 -->
    	       <%
    	           if(userID != null && userID.equals(bbs.getUserID())){
    	        %>
-
                    <div class="row-fluid">
                         <a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-danger pull-right">삭제</a>
                    </div>
    	               <div class="row-fluid">
    	                    <a href="update.jsp?bbsID=<%= bbsID %>" class="btn btn-success pull-right">수정</a>
    	               </div>
-
-
    	        <%
    	        }
    	        %>
@@ -127,7 +121,7 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
 	            <input id="actionTypeInput" type="hidden" name = "type" value="create">
 	            <input type="hidden" id="bbsID" name = "bbsID" value="<%=bbs.getBbsID() %>">
 	            <input type="hidden" id="commentID" name = "commentID" value=0>
-	            <input type="hidden" id="pageNo" name = "pageNo" value=${param.pageNo}>
+	            <input type="hidden" id="pageNo" name = "pageNo" value=<%=pageNo%> >	<!-- 여기가 문제 -->
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
 	                    <td class="col-md-1 align-middle"><%= userID %></td>
@@ -178,19 +172,14 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
                             <!-- 댓글삭제버튼 -->
                             <img class="minusBtn" src="images/red_minus.png" alt="" onclick="confirmDelete(<%= list.get(i).getBbsID()%>, <%= list.get(i).getCommentID()%>);"/>
                        </td>
-                       
                        <%
                        }else{   //댓글작성자와 로그인유저가 다르다면 표시안함
                        %>
                        <td class="col-md-1 "></td>
-                           
                        <%    
                        }
                        %>                       
-                       
-
                    </tr>  
-
 				<%
 				   }   //end of for list
 				%>
@@ -207,22 +196,15 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
     let bbsID = null;
     let commentID = null;
     
-    
-
-    
     //댓글수정 버튼 눌렀을때 호출. 해당댓글의 정보 가져옴
     function updateComment(bbsID, commentID){
     	//클릭한 행의 3개 컬럼 정보 변수에 저장
         $("#commentTable tbody").on("click", "tr", function(){
-
             writer = $(this).find("td:eq(0)").text();
             contentText = $(this).find("td:eq(1)").text();
             writedDate = $(this).find("td:eq(2)").text();
-
             commentID = $("#commentID").val(commentID);
             
-            console.log(commentID);
-            console.log(contentText);
             $("#commentText").val(contentText);
             $("#commentTextUpdateButton").attr('class','btn btn-warning');
             $("#actionTypeInput").val("update");
@@ -256,26 +238,6 @@ console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 �
     	document.body.appendChild(form);
     	form.submit();
     	
-
-/*      	$.ajax(
-	    	{ type: "POST",
-	    	  url: "commentAction.jsp",
-	    	  data: { //전달할 변수와 값
-	    		  type : "delete",
-	    		  bbsID : bbsID,
-	    		  commentID : commentID
-	    	  },
-	    	  
-	    	  success: function(data) {   //정상 실행시 콜백함수
-	    	        alert("success!");
-	    	  },
-	    	  error: function(error) {    //비정상 실행시 콜백함수
-	    	        alert("Error!");
-	    	  },
-
-	    	  dataType: 'json'    //응답결과의 데이터형식
-	    	}
-    	);  */
     }
     
 

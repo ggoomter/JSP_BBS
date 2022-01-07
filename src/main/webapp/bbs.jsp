@@ -14,7 +14,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width", initial-scale="1" >
-    <%@ include file="/commonInclude.jsp" %>
     <title>게시판</title>
     <style>
         a, a:hover{
@@ -71,7 +70,7 @@ int currentPage = 1;
                <c:forEach var="board" items="${list}" varStatus="status">
 					<tr>
                        <td class="col-md-1">${board.bbsID}</td>
-                       <td class="col-md-5"><a href="view.jsp?bbsID=${board.bbsID}&pageNo=${paging.pageNo}"> <c:out value ="${board.bbsTitle}" escapeXml="true"></c:out></a></td><!-- 특수문자나 공백, 줄띄움 처리 -->
+                       <td class="col-md-5"><a href="view.jsp?bbsID=${board.bbsID}&pageNo=${paging.pageNo}"> <c:out value ="${board.bbsTitle}" escapeXml="true"></c:out></a></td>
                        <!-- &pageNo=${pageNo}" 라고 하면 왜 안될까--> 
                        <td class="col-md-2">${board.userID}</td>
                        

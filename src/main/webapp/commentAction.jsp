@@ -43,7 +43,8 @@
             commentID = comment.getCommentID();
             commentText = comment.getCommentText();
         }
-
+	    System.out.println("할당된 bbsId : "+bbsID);
+	    System.out.println("할당된 commentID : "+commentID);
 	    if(userID ==null){  //로그인이 되어있는사람만 댓글을 쓸수있어야 한다.        
 	        PrintWriter script = response.getWriter();
 	        script.println("<script>");
@@ -88,7 +89,7 @@
                 PrintWriter script = response.getWriter();
                 int result = commentDAO.update(bbsID, commentID, commentText);
                 String url = "view.jsp?bbsID="+bbsID;
-                 script.println("<script>");
+                script.println("<script>");
                 script.println("location.href = "+"'"+url+"'");
                 script.println("</script>");
                 break;

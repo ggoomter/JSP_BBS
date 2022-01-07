@@ -11,12 +11,15 @@ create table BBS_COMMENT(
 alter table BBS_COMMENT add primary key (commentID, bbsID); 
 alter table BBS_COMMENT add constraint bbsID_FK foreign key (bbsID) references BBS_BOARD(bbsID);
 
+
 CREATE SEQUENCE AAA START WITH 1 INCREMENT BY 1 MAXVALUE 100 CYCLE NOCACHE;
 
 
 select * from BBS_BOARD;
-select * from BBS_COMMENT order by bbsid, commentID ;
+select * from BBS_COMMENT WHERE commentID = 3 AND bbsID=3 order by bbsid, commentID ;
+UPDATE BBS_COMMENT SET commentText = 'せせせせせせせせ', commentDate = SYSDATE WHERE commentID = 3 AND bbsID=3;
 select * from BBS_USER;
+
 
 SELECT commentID FROM BBS_COMMENT ORDER BY commentID DESC;
 INSERT INTO BBS_COMMENT VALUES (1,10,'db稽隔精奇越','ggoomter', sysdate);

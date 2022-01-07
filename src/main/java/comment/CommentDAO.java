@@ -58,6 +58,7 @@ public class CommentDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("댓글 쓰기도중 db에러발생");
         return -1;  //데이터베이스 오류       
     }
     
@@ -97,18 +98,19 @@ public class CommentDAO {
     
     //댓글 수정
     public int update(int bbsID, int commentID, String commentText) {
-        String SQL = "UPDATE BBS_COMMENT SET commentText = ?, commentDate = SYSDATE WHERE commentID = ? AND bbsID=?";
+        String SQL = "UPDATE BBS_COMMENT SET commentText = ?, commentDate = SYSDATE WHERE bbsID=? AND commentID = ?  ";
         try {
             System.out.println("댓글 수정");
             System.out.printf("글번호 : %d    댓글번호 : %d   바꾼내용 : %s\n", bbsID, commentID, commentText);
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1, commentText);
-            pstmt.setInt(2, commentID);
-            pstmt.setInt(3, bbsID);
+            pstmt.setInt(2, bbsID);
+            pstmt.setInt(3, commentID);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("댓글수정중 db오류");
         return -1;  //데이터베이스 오류        
     }
     
