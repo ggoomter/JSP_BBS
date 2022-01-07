@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <script>
     console.log('paging.jsp입니다.');
+    console.log(${param.pageNo});
     /* console.log(${param});       endPageNo=4, finalPageNo=4, pageNo=3, startPageNo=1, prevPageNo=2, nextPageNo=4, firstPageNo=1 */
     /* console.log(${paging});      비어있음 */
     </script>

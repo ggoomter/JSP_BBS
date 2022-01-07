@@ -37,6 +37,10 @@
     int commentID = 0;
     Bbs bbs = null;
 %>
+<script>
+console.log("view.jsp입니다. "+${param.pageNo});	//잘가져옴. 댓글을 쓰면 비어있음
+
+</script>
 <%
 	if(request.getParameter("bbsID")!=null){   //request에 bbsID가 없다면
 	    bbsID = Integer.parseInt(request.getParameter("bbsID"));   //다시 받아오도록
@@ -92,7 +96,8 @@
     	       </tbody>
    	       </table>
    	       <div class="text-center">
-   	            <a href="javascript:goPage(<%= request.getParameter("pageNo")%>)"  class="btn btn-primary pull-width">목록</a>
+   	            <%-- <a href="javascript:goPage(<%= request.getParameter("pageNo")%>)"  class="btn btn-primary pull-width">목록</a> --%>   <!-- null -->
+   	            <a href="javascript:goPage(${param.pageNo})"   class="btn btn-primary pull-width">목록</a>	<!-- undefined -->
                 <%-- ${pageNo} 하면 왜 안될까?  --%>
    	       </div>
    	       <!-- 작성자가 본인이라면 수정과 삭제가 가능하도록 -->
@@ -122,6 +127,7 @@
 	            <input id="actionTypeInput" type="hidden" name = "type" value="create">
 	            <input type="hidden" id="bbsID" name = "bbsID" value="<%=bbs.getBbsID() %>">
 	            <input type="hidden" id="commentID" name = "commentID" value=0>
+	            <input type="hidden" id="pageNo" name = "pageNo" value=${param.pageNo}>
 	            <table class="table table-striped" style="text-align: center; border: 2px solid #dddddd; height: 70px;">
 	                <tr>
 	                    <td class="col-md-1 align-middle"><%= userID %></td>
@@ -212,7 +218,6 @@
             writer = $(this).find("td:eq(0)").text();
             contentText = $(this).find("td:eq(1)").text();
             writedDate = $(this).find("td:eq(2)").text();
-            
 
             commentID = $("#commentID").val(commentID);
             
