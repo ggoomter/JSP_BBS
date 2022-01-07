@@ -197,7 +197,8 @@ console.log("view.jsp입니다. "+"<%=pageNo%>");
     let commentID = null;
     
     //댓글수정 버튼 눌렀을때 호출. 해당댓글의 정보 가져옴
-    function updateComment(bbsID, commentID){
+    function updateComment(bbsID, commentID){	//bbsId와 commentID가 반대로되는 현상 왜..
+    	alert("bbsID : "+bbsID+ " + commentID : "+commentID);
     	//클릭한 행의 3개 컬럼 정보 변수에 저장
         $("#commentTable tbody").on("click", "tr", function(){
             writer = $(this).find("td:eq(0)").text();

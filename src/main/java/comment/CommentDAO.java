@@ -80,8 +80,8 @@ public class CommentDAO {
             while (rs.next()) {
                 Comment comment = new Comment();
                 //DB조회 결과로나온것을 순서대로 담아서 자바단으로 저장
-                comment.setCommentID(rs.getInt(1));
-                comment.setBbsID(rs.getInt(2));
+                comment.setBbsID(rs.getInt(1));
+                comment.setCommentID(rs.getInt(2));
                 comment.setCommentText(rs.getString(3));
                 comment.setUserID(rs.getString(4));
                 comment.setCommentDate(rs.getString(5));

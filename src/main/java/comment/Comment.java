@@ -1,8 +1,8 @@
 package comment;
 
 public class Comment {
-    private int commentID;
-    private int bbsID;
+	private int bbsID;
+	private int commentID;
     private String commentText;
     private String userID;
     private String commentDate;
